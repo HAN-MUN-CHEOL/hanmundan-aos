@@ -7,10 +7,10 @@ assignees: ''
 
 ---
 
-##📌Description
+## 📌Description
 
-##✨TO DO
+## ✨TO DO
 - [ ]
 - [ ]
 
-##Etc
+## Etc
