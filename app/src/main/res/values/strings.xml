@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">hanmundan</string>
+    <!-- join -->
+    <string name="join_name_title">필명을 입력해 주세요.</string>
+    <string name="join_name_subtitle">무엇이든 당신이 될 수 있습니다.</string>
+    <string name="join_nickname_notice">공백을 제외한 6글자까지 가능합니다.</string>
+
+    <!-- calender -->
 </resources>
