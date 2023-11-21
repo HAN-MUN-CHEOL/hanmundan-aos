@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- hanmundan color -->
+    <color name="hmd_black">#FF000000</color>
+    <color name="hmd_white">#FFFFFFFF</color>
+    <color name="hmd_white_80">#CCFFFFFF</color>
+    <color name="hmd_green">#FF899878</color>
+    <color name="hmd_green_80">#CC899878</color>
+    <color name="hmd_beige">#FFFBFBF8</color>
+    <color name="hmd_beige_80">#CCFBFBF8</color>
+    <color name="hmd_dark_green">#FF3E442B</color>
+    <color name="hmd_dark_green_80">#CC3E442B</color>
+    <color name="hmd_gray">#FFBABABA</color>
+    <color name="hmd_gray_80">#CCBABABA</color>
+</resources>

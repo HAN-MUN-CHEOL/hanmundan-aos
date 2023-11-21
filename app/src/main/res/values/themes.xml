@@ -1,0 +1,13 @@
+<resources>
+
+    <style name="Base.Theme.Hanmundan" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/hmd_green</item>
+        <item name="colorPrimaryVariant">@color/hmd_beige</item>
+        <item name="colorOnPrimary">@color/hmd_green</item>
+        <!-- Remove font padding. -->
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="Theme.Hanmundan" parent="Base.Theme.Hanmundan" />
+</resources>
