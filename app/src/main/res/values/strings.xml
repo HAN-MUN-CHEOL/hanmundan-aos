@@ -8,4 +8,12 @@
     <string name="join_nickname_notice">공백을 제외한 6글자까지 가능합니다.</string>
 
     <!-- calender -->
+
+    <!-- navigation -->
+    <string name="menu_main">오늘의 단어</string>
+    <string name="menu_calender">달력</string>
+    <string name="menu_bookmark">책갈피</string>
+    <string name="menu_my_page">마이 페이지</string>
+    <string name="menu_header_greeting">오늘도 반가워요!</string>
+    <string name="menu_header_name">민주 님,</string>
 </resources>
