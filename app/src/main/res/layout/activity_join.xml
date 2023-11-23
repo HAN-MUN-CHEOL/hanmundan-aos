@@ -42,7 +42,8 @@
         android:hint="@string/join_nickname_notice"
         android:inputType="text"
         android:maxLength="6"
-        android:textColor="@color/hmd_gray_80"
+        android:textColor="@color/hmd_white_80"
+        android:textColorHint="@color/hmd_white_80"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_join_name_subtitle" />
