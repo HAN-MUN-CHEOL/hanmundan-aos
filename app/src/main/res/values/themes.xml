@@ -10,4 +10,8 @@
     </style>
 
     <style name="Theme.Hanmundan" parent="Base.Theme.Hanmundan" />
+
+    <style name="Item.Font" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/eulyoo1945_regular</item>
+    </style>
 </resources>

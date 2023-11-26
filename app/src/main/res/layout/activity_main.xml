@@ -7,12 +7,128 @@
     tools:context=".ui.main.MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/tv_main_navi_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/hmd_green"
+        android:fontFamily="@font/eulyoo1945_regular"
+        android:gravity="center"
+        android:text="@string/main_navi_title"
+        android:textColor="@color/hmd_white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_main_navi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_main_navi_title" />
+
+    <TextView
+        android:id="@+id/tv_main_word_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="120dp"
+        android:fontFamily="@font/eulyoo1945_semibold"
+        android:text="@string/main_word_title"
+        android:textColor="@color/hmd_dark_green"
+        android:textSize="36sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_main_navi_title" />
+
+    <TextView
+        android:id="@+id/txt_main_word_meaning"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/eulyoo1945_regular"
+        android:text="@string/main_word_meaning"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_main_word_title" />
+
+    <LinearLayout
+        android:id="@+id/ll_main_more_meaning"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_main_word_meaning">
+
+        <View
+            android:id="@+id/view_main_dividing_line"
+            android:layout_width="110dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/hmd_green" />
+
+        <TextView
+            android:id="@+id/btn_main_more_meaning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/eulyoo1945_semibold"
+            android:text="@string/main_more_meaning"
+            android:textColor="@color/hmd_green"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/view_main_dividing_line2"
+            android:layout_width="110dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/hmd_green" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_main_writing"
+        android:layout_width="300dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_green_rectangle"
+        android:fontFamily="@font/eulyoo1945_regular"
+        android:gravity="start"
+        android:hint="@string/main_advise_writing"
+        android:inputType="text"
+        android:padding="15dp"
+        android:textColor="@color/hmd_dark_green"
+        android:textColorHint="@color/hmd_gray"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_main_more_meaning" />
+
+    <TextView
+        android:id="@+id/btn_main_save_writing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/eulyoo1945_semibold"
+        android:text="@string/main_save_writing"
+        android:textColor="@color/hmd_green"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_main_writing" />
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        app:headerLayout="@layout/navigation_header"
+        app:itemTextAppearance="@style/Item.Font"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/navigation_menu" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
