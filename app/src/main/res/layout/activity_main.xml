@@ -142,7 +142,7 @@
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="@drawable/shape_white_rectangle"
+        android:background="@drawable/shape_beige_rectangle"
         app:headerLayout="@layout/navigation_header"
         app:itemTextAppearance="@style/Item.Font"
         app:menu="@menu/navigation_menu" />
