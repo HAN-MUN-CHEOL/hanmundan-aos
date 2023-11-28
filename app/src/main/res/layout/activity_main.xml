@@ -57,7 +57,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_main_word_title" />
 
         <TextView
-            android:id="@+id/txt_main_word_meaning"
+            android:id="@+id/tv_main_word_meaning"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -77,7 +77,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_main_word_meaning">
+            app:layout_constraintTop_toBottomOf="@+id/tv_main_word_meaning">
 
             <View
                 android:id="@+id/view_main_dividing_line"
