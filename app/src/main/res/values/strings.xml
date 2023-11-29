@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">hanmundan</string>
-    <string name="calender_navi_title">달력</string>
-    <string name="calender_retirement_button">퇴고하기</string>
+
     <!-- join -->
     <string name="join_name_title">필명을 입력해 주세요.</string>
     <string name="join_name_subtitle">무엇이든 당신이 될 수 있습니다.</string>
     <string name="join_nickname_notice">공백을 제외한 6글자까지 가능합니다.</string>
 
     <!-- calender -->
+    <string name="calender_navi_title">달력</string>
+    <string name="calender_retirement_button">퇴고하기</string>
 
     <!-- navigation -->
     <string name="menu_main">오늘의 단어</string>
@@ -16,4 +17,12 @@
     <string name="menu_my_page">마이 페이지</string>
     <string name="menu_header_greeting">오늘도 반가워요!</string>
     <string name="menu_header_name">민주 님,</string>
+
+    <!-- main -->
+    <string name="main_navi_title">오늘의 단어</string>
+    <string name="main_more_meaning">더 보기</string>
+    <string name="main_advise_writing">완성되지 않아도 좋아요. 오늘의 한 글을 작성해 주세요.</string>
+    <string name="main_save_writing">저장하기</string>
+    <string name="main_word_meaning">1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁.</string>
+    <string name="main_word_title">역사</string>
 </resources>
