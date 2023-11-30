@@ -8,128 +8,142 @@
         <import type="android.view.View" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_calender_navi_title"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/hmd_green"
-            android:fontFamily="@font/eulyoo1945_regular"
-            android:gravity="center"
-            android:text="@string/calender_navi_title"
-            android:textColor="@color/hmd_white"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_calender_navi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:src="@drawable/ic_navigation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_calender_navi_title" />
-
-        <CalendarView
-            android:id="@+id/cv_calender"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="35dp"
-            android:layout_marginTop="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_calender_navi_title" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_calender_word_card"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="35dp"
-            android:layout_marginVertical="15dp"
-            android:background="@drawable/shape_green_rectangle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_calender">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_calender_word_title"
+                android:id="@+id/tv_calender_navi_title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/hmd_green"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:gravity="center"
+                android:text="@string/calender_navi_title"
+                android:textColor="@color/hmd_white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_calender_navi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:fontFamily="@font/eulyoo1945_semibold"
-                android:textSize="26sp"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_navigation"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="역사" />
+                app:layout_constraintTop_toBottomOf="@id/tv_calender_navi_title" />
 
-            <View
-                android:id="@+id/view_calender_word_card"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/hmd_green"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_calender_word_title" />
-
-            <TextView
+            <CalendarView
+                android:id="@+id/cv_calender"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="35dp"
-                android:layout_marginTop="15dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/eulyoo1945_regular"
-                android:textColor="@color/hmd_dark_green"
-                android:textSize="12sp"
+                android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view_calender_word_card"
-                tools:text="역사의 미묘한 스케일 속에서, 우리는 작은 삶의 주인공이자 큰 운명의 연극 배우로서 행복과,,," />
+                app:layout_constraintTop_toBottomOf="@id/tv_calender_navi_title" />
 
-            <ImageView
-                android:id="@+id/iv_calender_filled_bookmark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_bookmark_fill"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/iv_calender_blanked_bookmark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_bookmark_blank"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/btn_calender_retirement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/eulyoo1945_semibold"
-                android:padding="5dp"
-                android:text="@string/calender_retirement_button"
-                android:textColor="@color/hmd_green"
-                android:textSize="12sp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_calender_word_card"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="35dp"
+                android:layout_marginVertical="15dp"
+                android:background="@drawable/shape_green_rectangle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_calender">
+
+                <TextView
+                    android:id="@+id/tv_calender_word_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/eulyoo1945_semibold"
+                    android:textSize="26sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="역사" />
+
+                <View
+                    android:id="@+id/view_calender_word_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/hmd_green"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_calender_word_title" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="35dp"
+                    android:layout_marginTop="15dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/eulyoo1945_regular"
+                    android:textColor="@color/hmd_dark_green"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_calender_word_card"
+                    tools:text="역사의 미묘한 스케일 속에서, 우리는 작은 삶의 주인공이자 큰 운명의 연극 배우로서 행복과,,," />
+
+                <ImageView
+                    android:id="@+id/iv_calender_filled_bookmark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_bookmark_fill"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_calender_blanked_bookmark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_bookmark_blank"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/btn_calender_retirement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/eulyoo1945_semibold"
+                    android:padding="5dp"
+                    android:text="@string/calender_retirement_button"
+                    android:textColor="@color/hmd_green"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_menu"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@drawable/shape_beige_rectangle"
+            app:headerLayout="@layout/navigation_header"
+            app:itemTextAppearance="@style/Item.Font"
+            app:menu="@menu/navigation_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

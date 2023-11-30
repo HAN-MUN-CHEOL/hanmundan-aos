@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/hmd_beige">
+
+            <TextView
+                android:id="@+id/tv_my_page_navi_title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/hmd_green"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:gravity="center"
+                android:text="@string/my_page_title"
+                android:textColor="@color/hmd_beige"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_my_page_navi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_navigation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_my_page_navi_title" />
+
+            <TextView
+                android:id="@+id/tv_my_page_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="75dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:text="@string/my_page_greeting"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_my_page_navi_title" />
+
+            <TextView
+                android:id="@+id/tv_my_page_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/eulyoo1945_semibold"
+                android:text="@string/my_page_nickname"
+                android:textColor="@color/hmd_green"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_my_page_greeting"
+                app:layout_constraintStart_toEndOf="@id/tv_my_page_greeting"
+                app:layout_constraintTop_toTopOf="@id/tv_my_page_greeting" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_my_page_feather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="17dp"
+                android:background="@drawable/shape_green_fill_10_rectangle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_my_page_greeting">
+
+                <ImageView
+                    android:id="@+id/iv_my_page_feather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="11dp"
+                    android:src="@drawable/ic_feather_80"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_my_page_feather_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:fontFamily="@font/eulyoo1945_regular"
+                    android:text="모은 깃펜 수"
+                    android:textColor="@color/hmd_beige_80"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/iv_my_page_feather"
+                    app:layout_constraintTop_toTopOf="@id/iv_my_page_feather" />
+
+                <TextView
+                    android:id="@+id/tv_my_page_feather_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="11dp"
+                    android:fontFamily="@font/eulyoo1945_semibold"
+                    android:text="%d개"
+                    android:textColor="@color/hmd_beige_80"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/iv_my_page_feather"
+                    app:layout_constraintTop_toBottomOf="@id/iv_my_page_feather" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_my_page_menu_nickname_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:paddingEnd="50dp"
+                android:text="필명 변경하기"
+                android:textColor="@color/hmd_dark_green"
+                android:textSize="21sp"
+                app:layout_constraintStart_toStartOf="@id/cl_my_page_feather"
+                app:layout_constraintTop_toBottomOf="@id/cl_my_page_feather" />
+
+            <ImageView
+                android:id="@+id/iv_my_page_menu_nickname_change_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_dark_green_arrow"
+                app:layout_constraintBottom_toBottomOf="@id/tv_my_page_menu_nickname_change"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_my_page_menu_nickname_change" />
+
+            <TextView
+                android:id="@+id/tv_my_page_menu_password_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="23dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:paddingEnd="50dp"
+                android:text="암호 변경하기"
+                android:textColor="@color/hmd_dark_green"
+                android:textSize="21sp"
+                app:layout_constraintStart_toStartOf="@id/cl_my_page_feather"
+                app:layout_constraintTop_toBottomOf="@id/iv_my_page_menu_nickname_change_arrow" />
+
+            <ImageView
+                android:id="@+id/iv_my_page_menu_password_change_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_dark_green_arrow"
+                app:layout_constraintBottom_toBottomOf="@id/tv_my_page_menu_password_change"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_my_page_menu_password_change" />
+
+            <TextView
+                android:id="@+id/tv_my_page_menu_resign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="23dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:paddingEnd="95dp"
+                android:text="탈퇴하기"
+                android:textColor="@color/hmd_dark_green"
+                android:textSize="21sp"
+                app:layout_constraintStart_toStartOf="@id/cl_my_page_feather"
+                app:layout_constraintTop_toBottomOf="@id/tv_my_page_menu_password_change" />
+
+            <ImageView
+                android:id="@+id/iv_my_page_menu_resign_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_dark_green_arrow"
+                app:layout_constraintBottom_toBottomOf="@id/tv_my_page_menu_resign"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_my_page_menu_resign" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_menu"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@drawable/shape_beige_rectangle"
+            app:headerLayout="@layout/navigation_header"
+            app:itemTextAppearance="@style/Item.Font"
+            app:menu="@menu/navigation_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
