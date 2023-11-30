@@ -7,7 +7,7 @@
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/dl_main"
+        android:id="@+id/dl_my_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
