@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="288dp"
+    android:layout_height="135dp"
+    android:background="@drawable/shape_green_box"
+    android:paddingHorizontal="30dp"
+    android:paddingBottom="23dp">
+
+    <View
+        android:id="@+id/view_dialog_line"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="10dp"
+        android:background="@color/hmd_white"
+        app:layout_constraintBottom_toBottomOf="@id/btn_dialog_no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_dialog_no" />
+
+    <ImageView
+        android:id="@+id/iv_dialog_feather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_feather"
+        app:layout_constraintBottom_toTopOf="@+id/tv_rewrite_change_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btn_dialog_yes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eulyoo1945_semibold"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/dialog_delete_yes"
+        android:textColor="@color/hmd_white"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_dialog_no"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rewrite_change_view" />
+
+    <TextView
+        android:id="@+id/btn_dialog_no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/eulyoo1945_semibold"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/dialog_delete_no"
+        android:textColor="@color/hmd_white"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_dialog_yes"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_rewrite_change_view" />
+
+    <TextView
+        android:id="@+id/tv_rewrite_change_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/eulyoo1945_regular"
+        android:gravity="center"
+        android:text="@string/dialog_change_view"
+        android:textColor="@color/hmd_white"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_dialog_feather" />
+</androidx.constraintlayout.widget.ConstraintLayout>
