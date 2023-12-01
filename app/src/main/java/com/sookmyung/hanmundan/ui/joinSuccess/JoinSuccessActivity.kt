@@ -15,8 +15,6 @@ class JoinSuccessActivity : AppCompatActivity() {
         setContentView(R.layout.activity_join_success)
 
         Handler(Looper.getMainLooper()).postDelayed({
-
-            // 일정 시간이 지나면 MainActivity로 이동
             val intentToMain = Intent(this, MainActivity::class.java)
             startActivity(intentToMain)
             finish()

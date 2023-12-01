@@ -23,6 +23,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val headerNavigation = binding.nvMainMenu.getHeaderView(0)
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
         val navigationView = binding.nvMainMenu
+        var bookmarkState = false
+
+        binding.ivMainBlankedBookmark.setOnClickListener {
+            if (bookmarkState == false) {
+                binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
+                bookmarkState = true
+            }
+            else {
+                binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
+                bookmarkState = false
+            }
+        }
 
         navigationView.setNavigationItemSelectedListener(this)
 
