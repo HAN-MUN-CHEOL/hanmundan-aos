@@ -11,6 +11,7 @@ import com.google.android.material.navigation.NavigationView
 import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityMainBinding
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
+import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val binding: ActivityMainBinding by lazy {
@@ -26,11 +27,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var bookmarkState = false
 
         binding.ivMainBlankedBookmark.setOnClickListener {
-            if (bookmarkState == false) {
+            if (!bookmarkState) {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
                 bookmarkState = true
-            }
-            else {
+            } else {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
                 bookmarkState = false
             }
@@ -66,7 +66,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             R.id.menu_item_my_page -> {
-                return true
+                val intentToMyPage = Intent(this, MyPageActivity::class.java)
+                startActivity(intentToMyPage)
+                binding.dlMain.closeDrawers()
             }
         }
         return false
