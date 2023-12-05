@@ -1,9 +1,11 @@
 package com.sookmyung.hanmundan.ui.main
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -25,14 +28,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
         val navigationView = binding.nvMainMenu
         var bookmarkState = false
+        var moreMeaningState = false
 
         binding.ivMainBlankedBookmark.setOnClickListener {
             if (!bookmarkState) {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
+                Toast.makeText(this, "책갈피를 끼웠습니다.", Toast.LENGTH_SHORT).show()
                 bookmarkState = true
             } else {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
+                Toast.makeText(this, "책갈피를 뺐습니다.", Toast.LENGTH_SHORT).show()
                 bookmarkState = false
+            }
+        }
+
+        binding.tvMainMoreMeaning.setOnClickListener {
+            if (!moreMeaningState) {
+                binding.tvMainWordMeaning.text =
+                    getString(R.string.main_word_meaning) + "\n\n" + getString(R.string.main_word_meaning_add)
+                binding.tvMainMoreMeaning.text = "접기"
+                moreMeaningState = true
+            } else {
+                binding.tvMainWordMeaning.text = getString(R.string.main_word_meaning)
+                binding.tvMainMoreMeaning.text = "더 보기"
+                moreMeaningState = false
             }
         }
 
