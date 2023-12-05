@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/dl_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/hmd_beige">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -118,7 +119,7 @@
             android:padding="15dp"
             android:textColor="@color/hmd_dark_green"
             android:textColorHint="@color/hmd_gray"
-            android:textSize="10sp"
+            android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_main_more_meaning" />
@@ -138,7 +139,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nv_menu"
+        android:id="@+id/nv_main_menu"
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
