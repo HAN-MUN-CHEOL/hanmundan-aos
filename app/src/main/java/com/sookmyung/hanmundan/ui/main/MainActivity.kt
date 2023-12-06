@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -14,11 +13,13 @@ import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityMainBinding
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
 import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
+import com.sookmyung.hanmundan.util.ToastCustom
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    private val toast by lazy { ToastCustom(this) }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,11 +34,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.ivMainBlankedBookmark.setOnClickListener {
             if (!bookmarkState) {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
-                Toast.makeText(this, "책갈피를 끼웠습니다.", Toast.LENGTH_SHORT).show()
+                toast.showToast("책갈피를 끼웠습니다.")
                 bookmarkState = true
             } else {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
-                Toast.makeText(this, "책갈피를 뺐습니다.", Toast.LENGTH_SHORT).show()
+                toast.showToast("책갈피를 뺐습니다.")
                 bookmarkState = false
             }
         }
