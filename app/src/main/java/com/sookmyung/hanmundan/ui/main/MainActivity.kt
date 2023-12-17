@@ -2,7 +2,9 @@ package com.sookmyung.hanmundan.ui.main
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -41,11 +43,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
         val textMenuNickname =
             headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
-        val intentFromJoinSuccess = intent
-        val nickname = intentFromJoinSuccess.getStringExtra("nickname")
         val navigationView = binding.nvMainMenu
         var bookmarkState = false
         var moreMeaningState = false
+        val spf: SharedPreferences = applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+        val nickname = spf.getString("nickname","")
 
         initClick(bookmarkState, moreMeaningState)
         navigationView.setNavigationItemSelectedListener(this)

@@ -1,25 +1,25 @@
-package com.sookmyung.hanmundan.ui.lock
+package com.sookmyung.hanmundan.ui.lockSetting
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityLockBinding
-import com.sookmyung.hanmundan.ui.main.MainActivity
-import com.sookmyung.hanmundan.util.SnackbarCustom
+import com.sookmyung.hanmundan.ui.joinSuccess.JoinSuccessActivity
 import com.sookmyung.hanmundan.util.binding.BindingActivity
 
-class LockActivity : BindingActivity<ActivityLockBinding>(R.layout.activity_lock) {
+class LockSettingActivity : BindingActivity<ActivityLockBinding>(R.layout.activity_lock) {
     private var password = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val spf: SharedPreferences =
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
 
-        binding.tvLockTitle.text = "자물쇠 열기"
+        binding.tvLockTitle.text = "자물쇠 설정하기"
+        binding.tvLockGuide.text = "당신의 글을 비밀스럽게 보관해보세요."
+
         binding.btnLock0.setOnClickListener { updatePassword("0", spf) }
         binding.btnLock1.setOnClickListener { updatePassword("1", spf) }
         binding.btnLock2.setOnClickListener { updatePassword("2", spf) }
@@ -37,20 +37,11 @@ class LockActivity : BindingActivity<ActivityLockBinding>(R.layout.activity_lock
         password += digit
         changePasswordDot()
         if (password.length == 4) {
-            val pw = spf.getString("password", "")
-            if (password == pw) {
-                val success = spf.edit().putString("password", password).commit()
-                if (success) {
-                    val intentToMain = Intent(this, MainActivity::class.java)
-                    startActivity(intentToMain)
-                    finish()
-                }
-            } else {
-                SnackbarCustom.make(binding.root, "비밀번호가 틀렸어요!").show()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    password = ""
-                    changePasswordDot()
-                }, 500)
+            val success = spf.edit().putString("password", password).commit()
+            if (success) {
+                val intentToSuccess = Intent(this, JoinSuccessActivity::class.java)
+                startActivity(intentToSuccess)
+                finish()
             }
         }
     }

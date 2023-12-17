@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -19,7 +20,7 @@
             android:layout_marginTop="48dp"
             android:fontFamily="@font/eulyoo1945_semibold"
             android:text="@string/lock_title"
-            android:textColor="@color/hmd_white"
+            android:textColor="@color/hmd_beige"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,7 @@
             android:id="@+id/ll_lock_dot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="21dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,41 +50,53 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:src="@drawable/shape_gray_dot" />
+                android:src="@drawable/shape_gray_dot_80" />
 
             <ImageView
                 android:id="@+id/iv_lock_pin2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:src="@drawable/shape_gray_dot" />
+                android:src="@drawable/shape_gray_dot_80" />
 
             <ImageView
                 android:id="@+id/iv_lock_pin3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:src="@drawable/shape_gray_dot" />
+                android:src="@drawable/shape_gray_dot_80" />
 
             <ImageView
                 android:id="@+id/iv_lock_pin4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:src="@drawable/shape_gray_dot" />
+                android:src="@drawable/shape_gray_dot_80" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_lock_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/eulyoo1945_regular"
+            android:textColor="@color/hmd_beige"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_lock_dot"
+            tools:text="당신의 글을 비밀스럽게 보관해보세요." />
 
         <TableLayout
             android:id="@+id/tl_lock_keypad"
             android:layout_width="300dp"
             android:layout_height="400dp"
-            android:layout_margin="10dp"
-            android:layout_marginTop="83dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:stretchColumns="*"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_lock_dot">
+            app:layout_constraintTop_toBottomOf="@id/tv_lock_guide">
 
             <TableRow android:layout_weight="1">
 
@@ -93,11 +106,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="1"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -105,11 +118,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="2"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -117,11 +130,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="3"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
 
             </TableRow>
@@ -134,11 +147,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="4"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -146,11 +159,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="5"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -158,11 +171,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="6"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
             </TableRow>
 
@@ -174,11 +187,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="7"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -186,12 +199,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="8"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -199,11 +211,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="9"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
             </TableRow>
 
@@ -213,7 +225,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:stateListAnimator="@null" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -221,19 +233,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="7dp"
-                    android:background="@drawable/shape_green_box"
+                    android:backgroundTint="@color/hmd_green"
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:stateListAnimator="@null"
                     android:text="0"
-                    android:textColor="@color/hmd_white"
+                    android:textColor="@color/hmd_beige"
                     android:textSize="30sp" />
 
                 <ImageButton
                     android:id="@+id/btn_lock_delete_number"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@drawable/shape_green_box"
-                    android:src="@drawable/ic_delete_number"
+                    android:backgroundTint="@color/hmd_green"
+                    android:src="@drawable/ic_erase_beige"
                     android:stateListAnimator="@null" />
             </TableRow>
         </TableLayout>

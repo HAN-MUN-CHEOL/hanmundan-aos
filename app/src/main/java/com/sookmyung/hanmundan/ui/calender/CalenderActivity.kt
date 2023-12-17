@@ -1,10 +1,14 @@
 package com.sookmyung.hanmundan.ui.calender
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
@@ -25,13 +29,25 @@ class CalenderActivity : BindingActivity<ActivityCalenderBinding>(R.layout.activ
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.vm = viewModel
-        val headerNavigation =
-            binding.nvMenu.getHeaderView(0).findViewById<ImageView>(R.id.iv_navigation_navi)
+        val headerNavigation = binding.nvMenu.getHeaderView(0)
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
-        date = binding.cvCalender.date
+        val navigationView = binding.nvMenu
+        val textMenuNickname =
+            headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
+        val spf: SharedPreferences =
+            applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+        val nickname = spf.getString("nickname", "")
 
+        date = binding.cvCalender.date
+        navigationView.setNavigationItemSelectedListener(this)
+        initMenuNickname(textMenuNickname, nickname)
         initNavi(btnMenuClose)
         initClickListener()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initMenuNickname(textMenuNickname: TextView, nickname: String?) {
+        textMenuNickname.text = "$nickname 님"
     }
 
     private fun initClickListener() {
@@ -41,6 +57,19 @@ class CalenderActivity : BindingActivity<ActivityCalenderBinding>(R.layout.activ
         }
         binding.ivCalenderBookmark.setOnClickListener { viewModel.updateBookmark() }
         initCalenderDateClickListener()
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onResume() {
+        super.onResume()
+        val spf: SharedPreferences =
+            applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+        val nickname = spf.getString("nickname", "")
+        val headerNavigation = binding.nvMenu.getHeaderView(0)
+        val textMenuNickname =
+            headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
+
+        initMenuNickname(textMenuNickname, nickname)
     }
 
     private fun initCalenderDateClickListener() {

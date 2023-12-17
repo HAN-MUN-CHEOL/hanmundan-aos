@@ -1,11 +1,15 @@
 package com.sookmyung.hanmundan.ui.myPage
 
+import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.Window
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textview.MaterialTextView
@@ -20,14 +24,40 @@ import com.sookmyung.hanmundan.util.hideKeyboard
 class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_my_page),
     NavigationView.OnNavigationItemSelectedListener {
     private lateinit var resignDialog: Dialog
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initClickListener()
-        val headerNavigation =
-            binding.nvMenu.getHeaderView(0).findViewById<ImageView>(R.id.iv_navigation_navi)
+        val headerNavigation = binding.nvMenu.getHeaderView(0)
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
+        val navigationView = binding.nvMenu
+        val textMenuNickname =
+            headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
+        val spf: SharedPreferences = applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+        val nickname = spf.getString("nickname","")
+        binding.tvMyPageNickname.text = "${nickname}님"
         initDialog()
+        navigationView.setNavigationItemSelectedListener(this)
+        initMenuNickname(textMenuNickname, nickname)
         initNavi(btnMenuClose)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initMenuNickname(textMenuNickname: TextView, nickname: String?) {
+        textMenuNickname.text = "$nickname 님"
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onResume() {
+        super.onResume()
+        val spf: SharedPreferences = applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+        val nickname = spf.getString("nickname","")
+        val headerNavigation = binding.nvMenu.getHeaderView(0)
+        val textMenuNickname =
+            headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
+
+        binding.tvMyPageNickname.text = "${nickname}님"
+        initMenuNickname(textMenuNickname, nickname)
     }
 
     private fun initNavi(btnMenuClose: ImageView) {
@@ -68,7 +98,7 @@ class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_
 
     private fun initTextClickListener() {
         binding.tvMyPageMenuPasswordChange.setOnClickListener {
-            val intentToPasswordChange = Intent(this, ChangePasswordActivity::class.java)
+            val intentToPasswordChange = Intent(this, CheckPasswordActivity::class.java)
             startActivity(intentToPasswordChange)
         }
     }

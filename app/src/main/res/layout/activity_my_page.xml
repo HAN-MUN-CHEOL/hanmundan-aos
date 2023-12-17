@@ -56,7 +56,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/eulyoo1945_semibold"
-                android:text="@string/my_page_nickname"
                 android:textColor="@color/hmd_green"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_my_page_greeting"
