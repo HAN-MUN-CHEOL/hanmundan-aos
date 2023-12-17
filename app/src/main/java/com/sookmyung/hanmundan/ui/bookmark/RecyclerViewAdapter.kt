@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sookmyung.hanmundan.R
+import com.sookmyung.hanmundan.model.DailyRecord
 
-class RecyclerViewAdapter(private val items: ArrayList<Data>) :
+class RecyclerViewAdapter(private val items: ArrayList<DailyRecord>) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.word.text = item.word
-        holder.sentence.text = item.sentence
+        holder.sentence.text = item.sentence.replace(" ", "\u00A0")
     }
 
     override fun getItemCount(): Int {
