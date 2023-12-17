@@ -6,6 +6,7 @@ import android.text.InputFilter
 import androidx.appcompat.app.AppCompatActivity
 import com.sookmyung.hanmundan.databinding.ActivityJoinBinding
 import com.sookmyung.hanmundan.ui.joinSuccess.JoinSuccessActivity
+import com.sookmyung.hanmundan.ui.main.MainActivity
 import com.sookmyung.hanmundan.util.SnackbarCustom
 import com.sookmyung.hanmundan.util.hideKeyboard
 import java.util.regex.Pattern
@@ -38,6 +39,7 @@ class JoinActivity : AppCompatActivity() {
                 SnackbarCustom.make(binding.root, "당신의 이름을 알고 싶어요.").show()
             } else {
                 val intentToSuccess = Intent(this, JoinSuccessActivity::class.java)
+                intentToSuccess.putExtra("nickname", etText)
                 startActivity(intentToSuccess)
                 finish()
             }

@@ -5,12 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityMainBinding
+import com.sookmyung.hanmundan.ui.bookmark.BookmarkActivity
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
 import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
 import com.sookmyung.hanmundan.util.SnackbarCustom
@@ -27,6 +29,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(binding.root)
         val headerNavigation = binding.nvMainMenu.getHeaderView(0)
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
+        val textMenuNickname = headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
+        val intentFromJoinSuccess = intent
+        val nickname = intentFromJoinSuccess.getStringExtra("nickname")
         val navigationView = binding.nvMainMenu
         var bookmarkState = false
         var moreMeaningState = false
@@ -59,6 +64,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navigationView.setNavigationItemSelectedListener(this)
 
+        textMenuNickname.text = "$nickname 님"
+
         binding.ivMainNavi.setOnClickListener {
             binding.dlMain.openDrawer(GravityCompat.END)
         }
@@ -87,7 +94,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             R.id.menu_item_bookmark -> {
-                return true
+                val intentToBookmark = Intent(this, BookmarkActivity::class.java)
+                startActivity(intentToBookmark)
+                binding.dlMain.closeDrawers()
             }
 
             R.id.menu_item_my_page -> {
