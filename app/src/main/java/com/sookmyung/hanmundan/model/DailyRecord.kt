@@ -1,6 +1,8 @@
 package com.sookmyung.hanmundan.model
 
 data class DailyRecord(
-    var word: String,
-    val sentence: String
+    val word: String,
+    val sentence: String,
+    val date: String,
+    val bookmark: Boolean
 )
