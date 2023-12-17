@@ -14,7 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/hmd_beige">
+            android:background="@color/hmd_beige">
 
             <TextView
                 android:id="@+id/tv_my_page_navi_title"
