@@ -14,6 +14,7 @@ import com.sookmyung.hanmundan.databinding.ActivityMainBinding
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
 import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
 import com.sookmyung.hanmundan.util.SnackbarCustom
+import com.sookmyung.hanmundan.util.hideKeyboard
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val binding: ActivityMainBinding by lazy {
@@ -49,7 +50,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.tvMainMoreMeaning.text = "접기"
                 moreMeaningState = true
             } else {
-                binding.tvMainWordMeaning.text = "1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁."
+                binding.tvMainWordMeaning.text =
+                    "1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁."
                 binding.tvMainMoreMeaning.text = "더 보기"
                 moreMeaningState = false
             }
@@ -63,6 +65,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         btnMenuClose.setOnClickListener {
             binding.dlMain.closeDrawers()
+        }
+
+        binding.root.setOnClickListener { view ->
+            hideKeyboard(view)
         }
 
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
