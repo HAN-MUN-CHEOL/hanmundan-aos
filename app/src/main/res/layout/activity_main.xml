@@ -41,11 +41,11 @@
             android:layout_marginStart="57dp"
             android:layout_marginTop="120dp"
             android:fontFamily="@font/eulyoo1945_semibold"
-            tools:text="역사"
             android:textColor="@color/hmd_dark_green"
             android:textSize="36sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_main_navi_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_main_navi_title"
+            tools:text="역사" />
 
         <ImageView
             android:id="@+id/iv_main_blanked_bookmark"
@@ -64,11 +64,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/eulyoo1945_regular"
-            tools:text="1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁."
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_main_word_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_main_word_title"
+            tools:text="1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁." />
 
         <LinearLayout
             android:id="@+id/ll_main_more_meaning"
@@ -129,8 +129,10 @@
             android:id="@+id/tv_main_save_writing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/eulyoo1945_semibold"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="10dp"
             android:text="@string/main_save_writing"
             android:textColor="@color/hmd_green"
             android:textSize="12sp"

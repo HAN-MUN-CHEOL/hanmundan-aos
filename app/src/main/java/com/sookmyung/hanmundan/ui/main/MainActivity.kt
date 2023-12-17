@@ -1,38 +1,43 @@
 package com.sookmyung.hanmundan.ui.main
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.MenuItem
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.textview.MaterialTextView
 import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityMainBinding
 import com.sookmyung.hanmundan.ui.bookmark.BookmarkActivity
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
 import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
 import com.sookmyung.hanmundan.util.SnackbarCustom
-import com.sookmyung.hanmundan.util.toast
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    private lateinit var dialog: Dialog
     var saveWritingState = false
     var lastWriting: String? = null
     var currentWriting: String? = null
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val headerNavigation = binding.nvMainMenu.getHeaderView(0)
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
-        val textMenuNickname = headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
+        val textMenuNickname =
+            headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
         val intentFromJoinSuccess = intent
         val nickname = intentFromJoinSuccess.getStringExtra("nickname")
         val navigationView = binding.nvMainMenu
@@ -44,6 +49,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initMenuNickname(textMenuNickname, nickname)
         initDrawer(btnMenuClose)
 
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_change_view)
+
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
@@ -53,6 +62,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         clickSaveButton()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initMenuNickname(textMenuNickname: TextView, nickname: String?) {
         textMenuNickname.text = "$nickname 님"
     }
@@ -111,13 +121,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             updateSaveWritingState()
             if (saveWritingState) {
                 SnackbarCustom.make(binding.root, "저장되었습니다.").show()
-            } else {
-                SnackbarCustom.make(binding.root, "저장되지 않았습니다.").show()
             }
         }
     }
 
-    fun updateSaveWritingState() {
+    private fun updateSaveWritingState() {
         saveWritingState = if (lastWriting == null) {
             false
         } else {
@@ -133,23 +141,39 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.menu_item_calendar -> {
                 val intentToCalender = Intent(this, CalenderActivity::class.java)
-                startActivity(intentToCalender)
-                binding.dlMain.closeDrawers()
+                showDialogOrChangeActivity(intentToCalender)
             }
 
             R.id.menu_item_bookmark -> {
                 val intentToBookmark = Intent(this, BookmarkActivity::class.java)
-                startActivity(intentToBookmark)
-                binding.dlMain.closeDrawers()
+                showDialogOrChangeActivity(intentToBookmark)
             }
 
             R.id.menu_item_my_page -> {
                 val intentToMyPage = Intent(this, MyPageActivity::class.java)
-                startActivity(intentToMyPage)
-                binding.dlMain.closeDrawers()
+                showDialogOrChangeActivity(intentToMyPage)
             }
         }
         return false
+    }
+
+    private fun showDialogOrChangeActivity(intent: Intent) {
+        if (!saveWritingState) {
+            dialog.setCancelable(false)
+            dialog.show()
+            dialog.findViewById<MaterialTextView>(R.id.btn_dialog_no)
+                .setOnClickListener { dialog.dismiss() }
+            dialog.findViewById<MaterialTextView>(R.id.btn_dialog_yes)
+                .setOnClickListener {
+                    startActivity(intent)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        binding.dlMain.closeDrawers()
+                        dialog.dismiss() }, 500)
+                }
+        } else {
+            startActivity(intent)
+            binding.dlMain.closeDrawers()
+        }
     }
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -158,12 +182,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.dlMain.closeDrawers()
             }
             if (!saveWritingState) {
-                toast("저장안함")
-                // Dialog
-            }
-            else {
+                showDialogBackPressed()
+            } else {
                 finish()
             }
         }
+    }
+
+    private fun showDialogBackPressed() {
+        dialog.setCancelable(false)
+        dialog.show()
+        dialog.findViewById<MaterialTextView>(R.id.btn_dialog_no)
+            .setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<MaterialTextView>(R.id.btn_dialog_yes)
+            .setOnClickListener {
+                finish()
+            }
     }
 }
