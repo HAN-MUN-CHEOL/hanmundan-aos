@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.Window
 import android.widget.ImageView
@@ -21,6 +23,7 @@ import com.sookmyung.hanmundan.ui.bookmark.BookmarkActivity
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
 import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
 import com.sookmyung.hanmundan.util.SnackbarCustom
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val binding: ActivityMainBinding by lazy {
@@ -111,26 +114,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun clickSaveButton() {
         binding.tvMainSaveWriting.setOnClickListener {
-            if (lastWriting == null) {
-                lastWriting = binding.etMainWriting.text.toString()
-                currentWriting = binding.etMainWriting.text.toString()
-            } else {
-                lastWriting = currentWriting
-                currentWriting = binding.etMainWriting.text.toString()
-            }
+            updateWritingValue()
             updateSaveWritingState()
-            if (saveWritingState) {
+            if (!saveWritingState) {
                 SnackbarCustom.make(binding.root, "저장되었습니다.").show()
             }
         }
     }
 
-    private fun updateSaveWritingState() {
-        saveWritingState = if (lastWriting == null) {
-            false
+    private fun updateWritingValue() {
+        if (lastWriting == null) {
+            lastWriting = binding.etMainWriting.text.toString()
+            currentWriting = lastWriting
         } else {
-            lastWriting == currentWriting
+            lastWriting = currentWriting
+            currentWriting = binding.etMainWriting.text.toString()
         }
+    }
+
+    private fun updateSaveWritingState() {
+        binding.etMainWriting.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                updateWritingValue()
+                saveWritingState = lastWriting == currentWriting
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                updateWritingValue()
+                saveWritingState = lastWriting == currentWriting
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                updateWritingValue()
+                saveWritingState = lastWriting == currentWriting
+            }
+        })
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -158,6 +176,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun showDialogOrChangeActivity(intent: Intent) {
+        updateSaveWritingState()
         if (!saveWritingState) {
             dialog.setCancelable(false)
             dialog.show()
@@ -168,11 +187,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     startActivity(intent)
                     Handler(Looper.getMainLooper()).postDelayed({
                         binding.dlMain.closeDrawers()
-                        dialog.dismiss() }, 500)
+                        dialog.dismiss()
+                        binding.etMainWriting.text =
+                            Editable.Factory.getInstance().newEditable(lastWriting ?: "")
+                    }, 500)
                 }
         } else {
             startActivity(intent)
-            binding.dlMain.closeDrawers()
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.dlMain.closeDrawers()
+            }, 500)
         }
     }
 
@@ -197,6 +221,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dialog.findViewById<MaterialTextView>(R.id.btn_dialog_yes)
             .setOnClickListener {
                 finish()
+                binding.etMainWriting.text =
+                    Editable.Factory.getInstance().newEditable(lastWriting)
             }
     }
 }
