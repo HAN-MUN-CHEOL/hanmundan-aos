@@ -1,13 +1,17 @@
 package com.sookmyung.hanmundan.ui.myPage
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityChangePasswordBinding
+import com.sookmyung.hanmundan.util.SnackbarCustom
 import com.sookmyung.hanmundan.util.binding.BindingActivity
 
-class ChangePasswordActivity :
+class CheckPasswordActivity :
     BindingActivity<ActivityChangePasswordBinding>(R.layout.activity_change_password) {
     private var password = ""
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,8 +19,8 @@ class ChangePasswordActivity :
         val spf: SharedPreferences =
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
 
-        binding.tvChangePasswordTitle.text = "자물쇠 설정하기"
-        binding.tvChangePasswordGuide.text = "앱에서 사용할 간편암호를 입력해주세요"
+        binding.tvChangePasswordTitle.text = "자물쇠 열기"
+        binding.tvChangePasswordGuide.text = "기존에 사용하시던 암호를 입력해주세요"
 
         binding.btnChangePassword0.setOnClickListener { updatePassword("0", spf) }
         binding.btnChangePassword1.setOnClickListener { updatePassword("1", spf) }
@@ -35,9 +39,20 @@ class ChangePasswordActivity :
         password += digit
         changePasswordDot()
         if (password.length == 4) {
-            val success = spf.edit().putString("password", password).commit()
-            if (success) {
-                finish()
+            val pw = spf.getString("password", "")
+            if (password == pw) {
+                val success = spf.edit().putString("password", password).commit()
+                if (success) {
+                    val intentToChangePassword = Intent(this, ChangePasswordActivity::class.java)
+                    startActivity(intentToChangePassword)
+                    finish()
+                }
+            } else {
+                SnackbarCustom.make(binding.root, "비밀번호가 틀렸어요!").show()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    password = ""
+                    changePasswordDot()
+                }, 500)
             }
         }
     }
