@@ -56,6 +56,10 @@
             android:name=".ui.bookmark.BookmarkActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.myPage.ChangePasswordActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
