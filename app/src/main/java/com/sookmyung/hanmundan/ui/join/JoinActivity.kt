@@ -2,23 +2,40 @@ package com.sookmyung.hanmundan.ui.join
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.appcompat.app.AppCompatActivity
 import com.sookmyung.hanmundan.databinding.ActivityJoinBinding
 import com.sookmyung.hanmundan.ui.joinSuccess.JoinSuccessActivity
+import com.sookmyung.hanmundan.util.ToastCustom
+import java.util.regex.Pattern
 
 class JoinActivity : AppCompatActivity() {
     val binding: ActivityJoinBinding by lazy {
         ActivityJoinBinding.inflate(layoutInflater)
     }
+    private val toast by lazy { ToastCustom(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.ibJoinNameCheck.setOnClickListener {
-            val intentToSuccess = Intent(this, JoinSuccessActivity::class.java)
-            startActivity(intentToSuccess)
-            finish()
+        val filterAlphaNumSpace = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
+            val ps = Pattern.compile("^[ㄱ-ㅣ가-힣a-zA-Z0-9]+$")
+            if (!ps.matcher(source).matches()) {
+                ""
+            } else source
+        }, InputFilter.LengthFilter(6))
+        binding.etJoinNameInput.filters = filterAlphaNumSpace
+
+        binding.ivJoinNameCheck.setOnClickListener {
+            val etText = binding.etJoinNameInput.text.toString()
+            if (etText.isEmpty()) {
+                toast.showToast("당신의 이름을 알고 싶어요.")
+            } else {
+                val intentToSuccess = Intent(this, JoinSuccessActivity::class.java)
+                startActivity(intentToSuccess)
+                finish()
+            }
         }
     }
 }

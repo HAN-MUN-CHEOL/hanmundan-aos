@@ -1,5 +1,6 @@
 package com.sookmyung.hanmundan.ui.main
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,12 +13,15 @@ import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityMainBinding
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
 import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
+import com.sookmyung.hanmundan.util.ToastCustom
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    private val toast by lazy { ToastCustom(this) }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -25,14 +29,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
         val navigationView = binding.nvMainMenu
         var bookmarkState = false
+        var moreMeaningState = false
 
         binding.ivMainBlankedBookmark.setOnClickListener {
             if (!bookmarkState) {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
+                toast.showToast("책갈피를 끼웠습니다.")
                 bookmarkState = true
             } else {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
+                toast.showToast("책갈피를 뺐습니다.")
                 bookmarkState = false
+            }
+        }
+
+        binding.tvMainMoreMeaning.setOnClickListener {
+            if (!moreMeaningState) {
+                binding.tvMainWordMeaning.text =
+                    getString(R.string.main_word_meaning) + "\n\n" + getString(R.string.main_word_meaning_add)
+                binding.tvMainMoreMeaning.text = "접기"
+                moreMeaningState = true
+            } else {
+                binding.tvMainWordMeaning.text = getString(R.string.main_word_meaning)
+                binding.tvMainMoreMeaning.text = "더 보기"
+                moreMeaningState = false
             }
         }
 
