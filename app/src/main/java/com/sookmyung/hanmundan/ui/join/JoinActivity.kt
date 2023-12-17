@@ -24,8 +24,8 @@ class JoinActivity : AppCompatActivity() {
         val spf: SharedPreferences =
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
 
-        val filterAlphaNumSpace = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
-            val ps = Pattern.compile("^[ㄱ-ㅣ가-힣a-zA-Z0-9]+$")
+        val filterAlphaNumSpace = arrayOf(InputFilter { source, _, _, _, _, _ ->
+            val ps = Pattern.compile("^[ㄱ-ㅣ가-힣]+$")
             if (!ps.matcher(source).matches()) {
                 ""
             } else source
