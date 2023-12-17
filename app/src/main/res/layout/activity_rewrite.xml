@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -54,7 +55,7 @@
                 android:layout_marginStart="57dp"
                 android:layout_marginTop="120dp"
                 android:fontFamily="@font/eulyoo1945_semibold"
-                android:text="@string/rewrite_word_title"
+                tools:text="역사"
                 android:textColor="@color/hmd_dark_green"
                 android:textSize="36sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/eulyoo1945_regular"
-                android:text="@string/rewrite_word_meaning"
+                tools:text="1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁."
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
