@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.tvMainSaveWriting.setOnClickListener {
             updateWritingValue()
             updateSaveWritingState()
-            if (!saveWritingState) {
+            if (saveWritingState) {
                 SnackbarCustom.make(binding.root, "저장되었습니다.").show()
             }
         }
