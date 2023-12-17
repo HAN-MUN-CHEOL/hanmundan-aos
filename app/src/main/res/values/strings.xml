@@ -23,9 +23,6 @@
     <string name="main_more_meaning">더 보기</string>
     <string name="main_advise_writing">완성되지 않아도 좋아요. 오늘의 한 글을 작성해 주세요.</string>
     <string name="main_save_writing">저장하기</string>
-    <string name="main_word_meaning">1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁.</string>
-    <string name="main_word_meaning_add">3. 자연 현상이 변하여 온 자취.\n\n4. 역으로 쓰는 건물.</string>
-    <string name="main_word_title">역사</string>
 
     <!-- my page -->
     <string name="my_page_title">마이페이지</string>

@@ -6,14 +6,13 @@ import android.text.InputFilter
 import androidx.appcompat.app.AppCompatActivity
 import com.sookmyung.hanmundan.databinding.ActivityJoinBinding
 import com.sookmyung.hanmundan.ui.joinSuccess.JoinSuccessActivity
-import com.sookmyung.hanmundan.util.ToastCustom
+import com.sookmyung.hanmundan.util.SnackbarCustom
 import java.util.regex.Pattern
 
 class JoinActivity : AppCompatActivity() {
     val binding: ActivityJoinBinding by lazy {
         ActivityJoinBinding.inflate(layoutInflater)
     }
-    private val toast by lazy { ToastCustom(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +29,7 @@ class JoinActivity : AppCompatActivity() {
         binding.ivJoinNameCheck.setOnClickListener {
             val etText = binding.etJoinNameInput.text.toString()
             if (etText.isEmpty()) {
-                toast.showToast("당신의 이름을 알고 싶어요.")
+                SnackbarCustom.make(binding.root, "당신의 이름을 알고 싶어요.").show()
             } else {
                 val intentToSuccess = Intent(this, JoinSuccessActivity::class.java)
                 startActivity(intentToSuccess)
