@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/hmd_beige">
+
+    <TextView
+        android:id="@+id/tv_bookmark_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/hmd_green"
+        android:fontFamily="@font/eulyoo1945_regular"
+        android:gravity="center"
+        android:text="@string/bookmark_title"
+        android:textColor="@color/hmd_white"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/view_bookmark_line"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:background="#899878" />
+
+    <ImageView
+        android:id="@+id/iv_bookmark_navi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_bookmark_title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_navigation" />
+
+    <EditText
+        android:id="@+id/et_bookmark_search"
+        android:layout_width="238dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_bookmark_title"
+        android:layout_alignBottom="@id/iv_bookmark_navi"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:autofillHints="no"
+        android:background="@drawable/shape_white_rectangle_corner"
+        android:drawableStart="@drawable/ic_search"
+        android:fontFamily="@font/eulyoo1945_regular"
+        android:gravity="center"
+        android:hint="@string/bookmark_search"
+        android:textColorHint="@color/hmd_dark_green_80"
+        android:textCursorDrawable="@color/hmd_dark_green"
+        android:textSize="13sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_bookmark_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/et_bookmark_search"
+        android:layout_alignStart="@+id/view_bookmark_line"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:scrollbarThumbVertical="@color/hmd_green_80"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/bookmark_list_item" />
+</RelativeLayout>
