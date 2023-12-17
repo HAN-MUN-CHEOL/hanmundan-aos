@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dl_rewrite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_rewrite_navi_title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/hmd_green"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:gravity="center"
+                android:text="@string/rewrite_title"
+                android:textColor="@color/hmd_white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_rewrite_navi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_navigation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_rewrite_navi_title" />
+
+            <ImageView
+                android:id="@+id/iv_rewrite_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_delete_sentence"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_rewrite_navi_title" />
+
+            <TextView
+                android:id="@+id/tv_rewrite_word_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="57dp"
+                android:layout_marginTop="120dp"
+                android:fontFamily="@font/eulyoo1945_semibold"
+                android:text="@string/rewrite_word_title"
+                android:textColor="@color/hmd_dark_green"
+                android:textSize="36sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rewrite_navi_title" />
+
+            <TextView
+                android:id="@+id/tv_rewrite_word_meaning"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:text="@string/rewrite_word_meaning"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rewrite_word_title" />
+
+            <LinearLayout
+                android:id="@+id/ll_rewrite_more_meaning"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rewrite_word_meaning">
+
+                <View
+                    android:id="@+id/view_rewrite_dividing_line"
+                    android:layout_width="110dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/hmd_green" />
+
+                <TextView
+                    android:id="@+id/btn_rewrite_more_meaning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/eulyoo1945_semibold"
+                    android:text="@string/rewrite_more_meaning"
+                    android:textColor="@color/hmd_green"
+                    android:textSize="12sp" />
+
+                <View
+                    android:id="@+id/view_rewrite_dividing_line2"
+                    android:layout_width="110dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/hmd_green" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_rewrite_writing"
+                android:layout_width="300dp"
+                android:layout_height="350dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/shape_green_rectangle"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:gravity="start"
+                android:text="@string/rewrite_written_sentence"
+                android:inputType="text"
+                android:padding="15dp"
+                android:textColor="@color/hmd_dark_green"
+                android:textColorHint="@color/hmd_gray"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_rewrite_more_meaning" />
+
+            <TextView
+                android:id="@+id/btn_rewrite_save_writing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/eulyoo1945_semibold"
+                android:text="@string/rewrite_save_writing"
+                android:textColor="@color/hmd_green"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_rewrite_writing" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_rewrite"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@drawable/shape_beige_rectangle"
+            app:headerLayout="@layout/navigation_header"
+            app:itemTextAppearance="@style/Item.Font"
+            app:menu="@menu/navigation_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
