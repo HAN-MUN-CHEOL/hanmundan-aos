@@ -26,15 +26,11 @@ class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_
         val headerNavigation =
             binding.nvMenu.getHeaderView(0).findViewById<ImageView>(R.id.iv_navigation_navi)
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
-
+        initDialog()
         initNavi(btnMenuClose)
     }
 
     private fun initNavi(btnMenuClose: ImageView) {
-        resignDialog = Dialog(this)
-        resignDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        resignDialog.setContentView(R.layout.dialog_frame)
-
         binding.nvMenu.setNavigationItemSelectedListener(this)
 
         binding.ivMyPageNavi.setOnClickListener {
@@ -43,6 +39,12 @@ class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_
         btnMenuClose.setOnClickListener {
             binding.dlMyPage.closeDrawers()
         }
+    }
+
+    private fun initDialog() {
+        resignDialog = Dialog(this)
+        resignDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        resignDialog.setContentView(R.layout.dialog_frame)
     }
 
     private fun initClickListener() {
