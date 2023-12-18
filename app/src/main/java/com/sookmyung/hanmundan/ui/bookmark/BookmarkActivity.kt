@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
@@ -78,6 +79,27 @@ class BookmarkActivity : BindingActivity<ActivityBookmarkBinding>(R.layout.activ
                 )
             )
         }
+        searchEvent()
+    }
+
+    private fun searchEvent() {
+        binding.etBookmarkSearch.setOnKeyListener { _, keyCode, _ ->
+            when (keyCode) {
+                KeyEvent.KEYCODE_ENTER -> {
+                    coroutineScope.launch {
+                        findWord()
+                    }
+                    return@setOnKeyListener true
+                }
+
+                KeyEvent.KEYCODE_DEL -> {
+                    binding.etBookmarkSearch.text.clear()
+                    adapter?.submitList(itemList)
+                    return@setOnKeyListener true
+                }
+            }
+            return@setOnKeyListener false
+        }
     }
 
     private fun setDocument(data: DailyRecord) {
@@ -107,7 +129,6 @@ class BookmarkActivity : BindingActivity<ActivityBookmarkBinding>(R.layout.activ
                         childSnapshot.child("sentence").getValue(String::class.java) ?: ""
                     val date = childSnapshot.child("date").getValue(String::class.java) ?: ""
                     itemList.add(DailyRecord(word, sentence, date, isBookmarked))
-                    Log.e("kang", "data is init $word $sentence")
                 }
             }
         } catch (exception: Exception) {
@@ -123,6 +144,30 @@ class BookmarkActivity : BindingActivity<ActivityBookmarkBinding>(R.layout.activ
             addOnFailureListener { exception ->
                 continuation.resumeWithException(exception)
             }
+        }
+    }
+
+    private suspend fun findWord() {
+        try {
+            val databaseReference = databaseReal.child(userId)
+            val dataSnapshot = databaseReference.get().await()
+            for (childSnapshot in dataSnapshot.children) {
+                val keyword = binding.etBookmarkSearch.text.toString()
+                val word = childSnapshot.child("word").getValue(String::class.java).toString()
+                if (keyword == word) {
+                    val sentence =
+                        childSnapshot.child("sentence").getValue(String::class.java) ?: ""
+                    val date = childSnapshot.child("date").getValue(String::class.java) ?: ""
+                    val isBookmarked =
+                        childSnapshot.child("bookmark").getValue(Boolean::class.java) ?: true
+                    val result = mutableListOf<DailyRecord>()
+                    result.add(DailyRecord(word, sentence, date, isBookmarked))
+                    adapter?.submitList(result)
+                    break
+                }
+            }
+        } catch (exception: Exception) {
+            Log.d("hmm", "Error getting data: ", exception)
         }
     }
 

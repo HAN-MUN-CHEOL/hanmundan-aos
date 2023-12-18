@@ -62,7 +62,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/eulyoo1945_regular"
             android:maxLines="4"
-            android:padding="10dp"
+            android:padding="15dp"
             android:text="@{data.sentence}"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
