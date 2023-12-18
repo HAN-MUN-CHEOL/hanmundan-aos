@@ -3,6 +3,7 @@
     <!-- hanmundan color -->
     <color name="hmd_black">#FF000000</color>
     <color name="hmd_white">#FFFFFFFF</color>
+    <color name="hmd_white_50">#80FFFFFF</color>
     <color name="hmd_white_80">#CCFFFFFF</color>
     <color name="hmd_green">#FF899878</color>
     <color name="hmd_green_80">#CC899878</color>
