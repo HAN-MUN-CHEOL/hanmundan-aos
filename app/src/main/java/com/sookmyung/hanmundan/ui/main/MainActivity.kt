@@ -10,7 +10,9 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,11 +22,18 @@ import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textview.MaterialTextView
 import com.sookmyung.hanmundan.R
+import com.sookmyung.hanmundan.data.RetrofitInstance
+import com.sookmyung.hanmundan.data.RetrofitInstance.CLIENT_SECRET
 import com.sookmyung.hanmundan.databinding.ActivityMainBinding
+import com.sookmyung.hanmundan.model.DictionaryResponseDTO
+import com.sookmyung.hanmundan.model.Item
 import com.sookmyung.hanmundan.ui.bookmark.BookmarkActivity
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
 import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
 import com.sookmyung.hanmundan.util.SnackbarCustom
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -35,6 +44,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var saveWritingState = false
     var lastWriting: String? = null
     var currentWriting: String? = null
+    private var moreMeaningState = false
+    private var bookmarkState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +55,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val textMenuNickname =
             headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
         val navigationView = binding.nvMainMenu
-        var bookmarkState = false
-        var moreMeaningState = false
-        val spf: SharedPreferences = applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
-        val nickname = spf.getString("nickname","")
+        val spf: SharedPreferences =
+            applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+        val nickname = spf.getString("nickname", "")
 
-        initClick(bookmarkState, moreMeaningState)
+        initClick()
         navigationView.setNavigationItemSelectedListener(this)
         initMenuNickname(textMenuNickname, nickname)
         initDrawer(btnMenuClose)
+        retrofitWork()
 
         dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -61,9 +72,46 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
-    private fun initClick(bookmarkState: Boolean, moreMeaningState: Boolean) {
-        clickBookmarkButton(bookmarkState)
-        clickMoreMeaningButton(moreMeaningState)
+    private fun retrofitWork() {
+        val service = RetrofitInstance.retrofitService
+
+        service.getDictionary(CLIENT_SECRET, "역사", "json")
+            .enqueue(object : Callback<DictionaryResponseDTO> {
+                override fun onResponse(
+                    call: Call<DictionaryResponseDTO>,
+                    response: Response<DictionaryResponseDTO>
+                ) {
+                    handleDictionaryResponse(response.body())
+                }
+
+                override fun onFailure(call: Call<DictionaryResponseDTO>, t: Throwable) {
+                    Log.d("kang", t.message.toString())
+                }
+            })
+    }
+
+    private fun handleDictionaryResponse(result: DictionaryResponseDTO?) {
+        result?.let {
+            val items = it.channel.item
+            if (items.isNotEmpty()) {
+                bindMeaningToTextView(binding.tvMainWordMeaning1, items, 0)
+                bindMeaningToTextView(binding.tvMainWordMeaning2, items, 1)
+                bindMeaningToTextView(binding.tvMainWordMeaning3, items, 2)
+                bindMeaningToTextView(binding.tvMainWordMeaning4, items, 3)
+            }
+        }
+    }
+
+    private fun bindMeaningToTextView(textView: TextView, items: List<Item>, index: Int) {
+        if (index < items.size) {
+            val meaning = items[index].sense[0].definition
+            textView.text = "${index + 1}. $meaning"
+        }
+    }
+
+    private fun initClick() {
+        clickBookmarkButton()
+        clickMoreMeaningButton()
         clickSaveButton()
     }
 
@@ -82,34 +130,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun clickMoreMeaningButton(moreMeaningState: Boolean) {
-        var moreMeaningState1 = moreMeaningState
+    private fun clickMoreMeaningButton() {
         binding.tvMainMoreMeaning.setOnClickListener {
-            if (!moreMeaningState1) {
-                binding.tvMainWordMeaning.text =
-                    "1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁.\n\n3. 자연 현상이 변하여 온 자취.\n\n4. 역으로 쓰는 건물."
-                binding.tvMainMoreMeaning.text = "접기"
-                moreMeaningState1 = true
-            } else {
-                binding.tvMainWordMeaning.text =
-                    "1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁."
-                binding.tvMainMoreMeaning.text = "더 보기"
-                moreMeaningState1 = false
-            }
+            moreMeaningState = !moreMeaningState
+            setMeaningVisibility(binding.tvMainWordMeaning3, moreMeaningState)
+            setMeaningVisibility(binding.tvMainWordMeaning4, moreMeaningState)
         }
     }
 
-    private fun clickBookmarkButton(bookmarkState: Boolean) {
-        var bookmarkState1 = bookmarkState
+    private fun setMeaningVisibility(view: View, isVisible: Boolean) {
+        view.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+    private fun clickBookmarkButton() {
         binding.ivMainBlankedBookmark.setOnClickListener {
-            if (!bookmarkState1) {
+            bookmarkState = !bookmarkState
+            if (bookmarkState) {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
                 SnackbarCustom.make(binding.root, "책갈피를 끼웠습니다.").show()
-                bookmarkState1 = true
             } else {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
                 SnackbarCustom.make(binding.root, "책갈피를 뺐습니다.").show()
-                bookmarkState1 = false
             }
         }
     }
