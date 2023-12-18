@@ -26,7 +26,7 @@
                 android:gravity="center"
                 android:text="@string/bookmark_title"
                 android:textColor="@color/hmd_white"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -62,9 +62,10 @@
                 android:drawableStart="@drawable/ic_search"
                 android:fontFamily="@font/eulyoo1945_regular"
                 android:hint="@string/bookmark_search"
+                android:padding="5dp"
                 android:textColorHint="@color/hmd_dark_green_80"
                 android:textCursorDrawable="@color/hmd_dark_green"
-                android:textSize="13sp"
+                android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_bookmark_title" />
@@ -89,7 +90,7 @@
             android:layout_gravity="end"
             android:background="@drawable/shape_beige_rectangle"
             app:headerLayout="@layout/navigation_header"
-            app:itemTextAppearance="@style/Item.Font"
+            app:itemTextAppearance="@style/NavigationItemText"
             app:menu="@menu/navigation_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

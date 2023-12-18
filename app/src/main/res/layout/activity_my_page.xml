@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,7 +26,7 @@
                 android:gravity="center"
                 android:text="@string/my_page_title"
                 android:textColor="@color/hmd_beige"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,27 +41,29 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_my_page_navi_title" />
 
             <TextView
-                android:id="@+id/tv_my_page_greeting"
+                android:id="@+id/tv_my_page_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="75dp"
-                android:fontFamily="@font/eulyoo1945_regular"
-                android:text="@string/my_page_greeting"
-                android:textSize="25sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_my_page_navi_title" />
-
-            <TextView
-                android:id="@+id/tv_my_page_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:fontFamily="@font/eulyoo1945_semibold"
                 android:textColor="@color/hmd_green"
-                android:textSize="25sp"
-                app:layout_constraintBottom_toBottomOf="@id/tv_my_page_greeting"
-                app:layout_constraintStart_toEndOf="@id/tv_my_page_greeting"
-                app:layout_constraintTop_toTopOf="@id/tv_my_page_greeting" />
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_my_page_navi_title"
+                tools:text="민주님" />
+
+            <TextView
+                android:id="@+id/tv_my_page_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:text="@string/my_page_greeting"
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="@id/tv_my_page_nickname"
+                app:layout_constraintTop_toBottomOf="@id/tv_my_page_nickname" />
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_my_page_feather"
@@ -90,7 +93,8 @@
                     android:fontFamily="@font/eulyoo1945_regular"
                     android:text="모은 깃펜 수"
                     android:textColor="@color/hmd_beige_80"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_my_page_feather"
                     app:layout_constraintStart_toEndOf="@id/iv_my_page_feather"
                     app:layout_constraintTop_toTopOf="@id/iv_my_page_feather" />
 
@@ -103,7 +107,7 @@
                     android:fontFamily="@font/eulyoo1945_semibold"
                     android:text="0개"
                     android:textColor="@color/hmd_beige"
-                    android:textSize="20sp"
+                    android:textSize="21sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/iv_my_page_feather"
                     app:layout_constraintTop_toBottomOf="@id/iv_my_page_feather" />
@@ -117,10 +121,10 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="36dp"
                 android:fontFamily="@font/eulyoo1945_regular"
-                android:paddingEnd="50dp"
+                android:paddingEnd="150dp"
                 android:text="필명 변경하기"
                 android:textColor="@color/hmd_dark_green"
-                android:textSize="21sp"
+                android:textSize="23sp"
                 app:layout_constraintStart_toStartOf="@id/cl_my_page_feather"
                 app:layout_constraintTop_toBottomOf="@id/cl_my_page_feather" />
 
@@ -142,10 +146,10 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="23dp"
                 android:fontFamily="@font/eulyoo1945_regular"
-                android:paddingEnd="50dp"
+                android:paddingEnd="150dp"
                 android:text="암호 변경하기"
                 android:textColor="@color/hmd_dark_green"
-                android:textSize="21sp"
+                android:textSize="23sp"
                 app:layout_constraintStart_toStartOf="@id/cl_my_page_feather"
                 app:layout_constraintTop_toBottomOf="@id/iv_my_page_menu_nickname_change_arrow" />
 
@@ -167,10 +171,10 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="23dp"
                 android:fontFamily="@font/eulyoo1945_regular"
-                android:paddingEnd="95dp"
+                android:paddingEnd="200dp"
                 android:text="탈퇴하기"
                 android:textColor="@color/hmd_dark_green"
-                android:textSize="21sp"
+                android:textSize="23sp"
                 app:layout_constraintStart_toStartOf="@id/cl_my_page_feather"
                 app:layout_constraintTop_toBottomOf="@id/tv_my_page_menu_password_change" />
 
@@ -193,7 +197,7 @@
             android:layout_gravity="end"
             android:background="@drawable/shape_beige_rectangle"
             app:headerLayout="@layout/navigation_header"
-            app:itemTextAppearance="@style/Item.Font"
+            app:itemTextAppearance="@style/NavigationItemText"
             app:menu="@menu/navigation_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

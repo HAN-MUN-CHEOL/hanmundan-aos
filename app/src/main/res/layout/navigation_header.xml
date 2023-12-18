@@ -13,7 +13,7 @@
         android:layout_marginTop="35dp"
         android:fontFamily="@font/eulyoo1945_regular"
         android:textColor="@color/hmd_dark_green"
-        android:textSize="18sp"
+        android:textSize="25sp"
         tools:text = "민주 님,"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_navigation_navi" />
@@ -37,7 +37,7 @@
         android:fontFamily="@font/eulyoo1945_regular"
         android:text="@string/menu_header_greeting"
         android:textColor="@color/hmd_dark_green"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_navigation_header_name" />
 
