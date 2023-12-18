@@ -6,11 +6,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.Firebase
@@ -35,7 +35,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class RewriteActivity : BindingActivity<ActivityRewriteBinding>(R.layout.activity_rewrite) {
-    private lateinit var deletedialog: Dialog
+    private lateinit var deleteDialog: Dialog
+    private lateinit var saveDialog: Dialog
     private var moreMeaningState = false
     var saveWritingState = false
     var lastWriting: String? = null
@@ -65,11 +66,22 @@ class RewriteActivity : BindingActivity<ActivityRewriteBinding>(R.layout.activit
         }
 
         initUI()
-        deletedialog = Dialog(this)
-        deletedialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        deletedialog.setContentView(R.layout.dialog_delete_sentence)
+        initDialog()
+
         clickMoreMeaningButton()
         retrofitWork()
+
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    private fun initDialog() {
+        deleteDialog = Dialog(this)
+        deleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        deleteDialog.setContentView(R.layout.dialog_delete_sentence)
+
+        saveDialog = Dialog(this)
+        saveDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        saveDialog.setContentView(R.layout.dialog_change_view)
     }
 
     private fun getIntentFromCalender() {
@@ -172,21 +184,23 @@ class RewriteActivity : BindingActivity<ActivityRewriteBinding>(R.layout.activit
 
     private fun clickSaveButton() {
         binding.btnRewriteSaveWriting.setOnClickListener {
-            updateWritingValue()
-            updateSaveWritingState()
-
-            if (saveWritingState) {
-                SnackbarCustom.make(binding.root, "저장되었습니다.").show()
-                setDocument(
-                    DailyRecord(
-                        currentWord,
-                        binding.etRewriteWriting.text.toString(),
-                        currentDate,
-                        currentWordBookmarkState
-                    )
+            SnackbarCustom.make(binding.root, "저장되었습니다.").show()
+            updateSaveState()
+            setDocument(
+                DailyRecord(
+                    currentWord,
+                    currentWriting ?: "",
+                    currentDate,
+                    currentWordBookmarkState
                 )
-            }
+            )
+            lastWriting = currentWriting
         }
+    }
+
+    private fun updateSaveState() {
+        currentWriting = binding.etRewriteWriting.text.toString()
+        saveWritingState = lastWriting == currentWriting
     }
 
     private fun setDocument(data: DailyRecord) {
@@ -199,47 +213,40 @@ class RewriteActivity : BindingActivity<ActivityRewriteBinding>(R.layout.activit
             }
     }
 
-    private fun updateWritingValue() {
-        if (lastWriting == null) {
-            lastWriting = binding.etRewriteWriting.text.toString()
-            currentWriting = lastWriting
-        } else {
-            lastWriting = currentWriting
-            currentWriting = binding.etRewriteWriting.text.toString()
-        }
-    }
-
-    private fun updateSaveWritingState() {
-        binding.etRewriteWriting.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                updateWritingValue()
-                saveWritingState = lastWriting == currentWriting
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                updateWritingValue()
-                saveWritingState = lastWriting == currentWriting
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                updateWritingValue()
-                saveWritingState = lastWriting == currentWriting
-            }
-        })
-    }
-
     private fun clickDeleteButton() {
         binding.ivRewriteDelete.setOnClickListener {
             showDialog()
         }
     }
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            updateSaveState()
+            if (!saveWritingState) {
+                showDialogBackPressed()
+            } else {
+                finish()
+            }
+        }
+    }
+
+    private fun showDialogBackPressed() {
+        saveDialog.setCancelable(false)
+        saveDialog.show()
+        saveDialog.findViewById<MaterialTextView>(R.id.btn_dialog_no)
+            .setOnClickListener { saveDialog.dismiss() }
+        saveDialog.findViewById<MaterialTextView>(R.id.btn_dialog_yes)
+            .setOnClickListener {
+                finish()
+            }
+    }
+
     private fun showDialog() {
-        deletedialog.setCancelable(false)
-        deletedialog.show()
-        deletedialog.findViewById<MaterialTextView>(R.id.tv_dialog_no)
-            .setOnClickListener { deletedialog.dismiss() }
-        deletedialog.findViewById<MaterialTextView>(R.id.tv_dialog_yes)
+        deleteDialog.setCancelable(false)
+        deleteDialog.show()
+        deleteDialog.findViewById<MaterialTextView>(R.id.tv_dialog_no)
+            .setOnClickListener { deleteDialog.dismiss() }
+        deleteDialog.findViewById<MaterialTextView>(R.id.tv_dialog_yes)
             .setOnClickListener { doDelete() }
     }
 

@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ActivityMainBinding.inflate(layoutInflater)
     }
     private lateinit var dialog: Dialog
-    var saveWritingState = false
+    private var saveWritingState = false
     var lastWriting: String? = null
     var currentWriting: String? = null
     private var moreMeaningState = false
@@ -129,6 +128,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     todayWord = childSnapshot.child("word").getValue(String::class.java)!!
                     todayWordSentence =
                         childSnapshot.child("sentence").getValue(String::class.java) ?: ""
+                    lastWriting = todayWordSentence
                     todayBookmarkState =
                         childSnapshot.child("bookmark").getValue(Boolean::class.java) ?: false
                     break
@@ -139,7 +139,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    // Firebase의 Task를 Deferred로 변환하는 확장 함수
     private suspend fun <T> Task<T>.await(): T {
         return suspendCancellableCoroutine { continuation ->
             addOnSuccessListener { result ->
@@ -162,13 +161,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun initUI() {
         binding.tvMainWordTitle.text = todayWord
         binding.etMainWriting.text = Editable.Factory.getInstance().newEditable(todayWordSentence)
-        //bookmarkState = todayWordBookmarkState
     }
 
     private fun retrofitWork() {
         val service = RetrofitInstance.retrofitService
 
-        service.getDictionary(CLIENT_SECRET, todayWord, "json") // 여기에 받아온 단어
+        service.getDictionary(CLIENT_SECRET, todayWord, "json")
             .enqueue(object : Callback<DictionaryResponseDTO> {
                 override fun onResponse(
                     call: Call<DictionaryResponseDTO>,
@@ -271,49 +269,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun clickSaveButton() {
         binding.tvMainSaveWriting.setOnClickListener {
-            updateWritingValue()
-            updateSaveWritingState()
-            if (saveWritingState) {
-                SnackbarCustom.make(binding.root, "저장되었습니다.").show()
-                setDocument(
-                    DailyRecord(
-                        todayWord,
-                        binding.etMainWriting.text.toString(),
-                        dateInDatabase,
-                        todayBookmarkState
-                    )
+            SnackbarCustom.make(binding.root, "저장되었습니다.").show()
+            updateSaveState()
+            setDocument(
+                DailyRecord(
+                    todayWord,
+                    currentWriting ?: "",
+                    dateInDatabase,
+                    todayBookmarkState
                 )
-            }
-        }
-    }
-
-    private fun updateWritingValue() {
-        if (lastWriting == null) {
-            lastWriting = binding.etMainWriting.text.toString()
-            currentWriting = lastWriting
-        } else {
+            )
             lastWriting = currentWriting
-            currentWriting = binding.etMainWriting.text.toString()
         }
     }
 
-    private fun updateSaveWritingState() {
-        binding.etMainWriting.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                updateWritingValue()
-                saveWritingState = lastWriting == currentWriting
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                updateWritingValue()
-                saveWritingState = lastWriting == currentWriting
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                updateWritingValue()
-                saveWritingState = lastWriting == currentWriting
-            }
-        })
+    private fun updateSaveState() {
+        currentWriting = binding.etMainWriting.text.toString()
+        saveWritingState = lastWriting == currentWriting
     }
 
     private fun setDocument(data: DailyRecord) {
@@ -351,7 +323,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun showDialogOrChangeActivity(intent: Intent) {
-        updateSaveWritingState()
+        updateSaveState()
         if (!saveWritingState) {
             dialog.setCancelable(false)
             dialog.show()
@@ -363,8 +335,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     Handler(Looper.getMainLooper()).postDelayed({
                         binding.dlMain.closeDrawers()
                         dialog.dismiss()
-                        binding.etMainWriting.text =
-                            Editable.Factory.getInstance().newEditable(lastWriting ?: "")
                     }, 500)
                 }
         } else {
@@ -377,9 +347,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
+            updateSaveState()
             if (binding.dlMain.isDrawerOpen(GravityCompat.END)) {
                 binding.dlMain.closeDrawers()
             }
+
             if (!saveWritingState) {
                 showDialogBackPressed()
             } else {
@@ -396,12 +368,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dialog.findViewById<MaterialTextView>(R.id.btn_dialog_yes)
             .setOnClickListener {
                 finish()
-                binding.etMainWriting.text =
-                    Editable.Factory.getInstance().newEditable(lastWriting)
             }
     }
 
-    companion object{
-        var mainActivity : MainActivity? = null
+    companion object {
+        var mainActivity: MainActivity? = null
     }
 }
