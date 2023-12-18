@@ -4,5 +4,5 @@ data class DailyRecord(
     val word: String,
     val sentence: String,
     val date: String,
-    val bookmark: Boolean
+    var bookmark: Boolean
 )

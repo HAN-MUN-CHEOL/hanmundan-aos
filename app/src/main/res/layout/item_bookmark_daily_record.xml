@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.sookmyung.hanmundan.model.DailyRecord" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:paddingHorizontal="30dp">
+
+        <TextView
+            android:id="@+id/tv_item_bookmark_word_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/eulyoo1945_semibold"
+            android:text="@{data.date}"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_bookmark_word_title"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="2023.12.12" />
+
+        <TextView
+            android:id="@+id/tv_item_bookmark_word_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:fontFamily="@font/eulyoo1945_semibold"
+            android:text="@{data.word}"
+            android:textColor="@color/hmd_dark_green"
+            android:textSize="25sp"
+            app:layout_constraintStart_toEndOf="@id/tv_item_bookmark_word_date"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="열정" />
+
+        <ImageView
+            android:id="@+id/iv_bookmark_list_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:scaleType="centerCrop"
+            android:src="@{data.bookmark == true? @drawable/ic_bookmark_fill:@drawable/ic_bookmark_blank}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_bookmark_word_title"
+            app:layout_constraintStart_toEndOf="@id/tv_item_bookmark_word_title" />
+
+        <TextView
+            android:id="@+id/tv_item_bookmark_word_sentence"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_green_rectangle_corner"
+            android:ellipsize="end"
+            android:fontFamily="@font/eulyoo1945_regular"
+            android:maxLines="4"
+            android:padding="10dp"
+            android:text="@{data.sentence}"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_bookmark_word_title"
+            tools:text="열정 아자아자아자!" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

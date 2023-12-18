@@ -5,12 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.GravityCompat
-import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.Firebase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.database
 import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityBookmarkBinding
 import com.sookmyung.hanmundan.model.DailyRecord
@@ -19,33 +23,107 @@ import com.sookmyung.hanmundan.ui.main.MainActivity
 import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
 import com.sookmyung.hanmundan.util.binding.BindingActivity
 import com.sookmyung.hanmundan.util.hideKeyboard
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class BookmarkActivity : BindingActivity<ActivityBookmarkBinding>(R.layout.activity_bookmark),
     NavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var databaseReal: DatabaseReference
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private lateinit var userId: String
+    private var itemList = mutableListOf<DailyRecord>()
+    private val adapter: RecyclerViewAdapter?
+        get() = binding.rvBookmarkList.adapter as? RecyclerViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val item = ArrayList<DailyRecord>()
-        item.add(DailyRecord("하루", "하루하루 지나가면 바람결에 실려오는 나의 꿈들이 나를 채우고", "2023.10.12", false))
-        item.add(DailyRecord("하늘", "하늘을 날아가는 기분이야", "2023.10.12", false))
-        item.add(DailyRecord("하루살이", "이제 난 하루살이 하루하루 내일도 잃어버린 채", "2023.10.12", false))
-
-        val recyclerView: RecyclerView = binding.rvBookmarkList
-        val adapter = RecyclerViewAdapter(item)
-        recyclerView.adapter = adapter
+        databaseReal =
+            Firebase.database("https://hanmundan-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
+        coroutineScope.launch {
+            initWord()
+            initAdapter()
+        }
 
         val headerNavigation = binding.nvMenu.getHeaderView(0)
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
         val navigationView = binding.nvMenu
         val textMenuNickname =
             headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
+
         val spf: SharedPreferences =
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
         val nickname = spf.getString("nickname", "")
+        userId = spf.getString("userId", "").toString()
+
         navigationView.setNavigationItemSelectedListener(this)
         initMenuNickname(textMenuNickname, nickname)
         initNavi(btnMenuClose)
         initHideKeyBoard()
+
+        binding.rvBookmarkList.adapter = RecyclerViewAdapter { pos, item ->
+            val dailyRecord = item.copy(bookmark = !(item.bookmark))
+            adapter?.updateItemChange(pos)
+            setDocument(
+                DailyRecord(
+                    dailyRecord.word,
+                    dailyRecord.sentence,
+                    dailyRecord.date,
+                    dailyRecord.bookmark
+                )
+            )
+        }
+    }
+
+    private fun setDocument(data: DailyRecord) {
+        databaseReal.child(userId).child(data.date.replace(Regex("\\."), "")).setValue(data)
+            .addOnSuccessListener {
+                Log.e("hmm", "setDocument success")
+            }
+            .addOnFailureListener {
+                Log.e("hmm", "setDocument fail")
+            }
+    }
+
+    private fun initAdapter() {
+        adapter?.submitList(itemList)
+    }
+
+    private suspend fun initWord() {
+        try {
+            val databaseReference = databaseReal.child(userId)
+            val dataSnapshot = databaseReference.get().await()
+
+            for (childSnapshot in dataSnapshot.children) {
+                val isBookmarked = childSnapshot.child("bookmark").getValue(Boolean::class.java)
+                if (isBookmarked == true) {
+                    val word = childSnapshot.child("word").getValue(String::class.java)!!
+                    val sentence =
+                        childSnapshot.child("sentence").getValue(String::class.java) ?: ""
+                    val date = childSnapshot.child("date").getValue(String::class.java) ?: ""
+                    itemList.add(DailyRecord(word, sentence, date, isBookmarked))
+                    Log.e("kang", "data is init $word $sentence")
+                }
+            }
+        } catch (exception: Exception) {
+            Log.d("hmm", "Error getting data: ", exception)
+        }
+    }
+
+    private suspend fun <T> Task<T>.await(): T {
+        return suspendCancellableCoroutine { continuation ->
+            addOnSuccessListener { result ->
+                continuation.resume(result)
+            }
+            addOnFailureListener { exception ->
+                continuation.resumeWithException(exception)
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -99,3 +177,4 @@ class BookmarkActivity : BindingActivity<ActivityBookmarkBinding>(R.layout.activ
         return false
     }
 }
+
