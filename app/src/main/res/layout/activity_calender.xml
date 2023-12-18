@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:text="@string/calender_navi_title"
                 android:textColor="@color/hmd_white"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,7 +101,7 @@
                     android:fontFamily="@font/eulyoo1945_regular"
                     android:text="@{vm.dailyRecord.sentence}"
                     android:textColor="@color/hmd_dark_green"
-                    android:textSize="12sp"
+                    android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view_calender_word_card"
@@ -117,7 +117,7 @@
                     android:fontFamily="@font/eulyoo1945_regular"
                     android:hint="작성하지 않았어요. 한 글자라도 좋으니 써볼까요?"
                     android:textColor="@color/hmd_dark_green"
-                    android:textSize="12sp"
+                    android:textSize="15sp"
                     android:visibility="@{vm.dailyRecord.sentence.length() == 0 ? View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -140,10 +140,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/eulyoo1945_semibold"
-                    android:padding="5dp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="5dp"
                     android:text="@string/calender_retirement_button"
                     android:textColor="@color/hmd_green"
-                    android:textSize="12sp"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -157,7 +158,7 @@
             android:layout_gravity="end"
             android:background="@drawable/shape_beige_rectangle"
             app:headerLayout="@layout/navigation_header"
-            app:itemTextAppearance="@style/Item.Font"
+            app:itemTextAppearance="@style/NavigationItemText"
             app:menu="@menu/navigation_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
