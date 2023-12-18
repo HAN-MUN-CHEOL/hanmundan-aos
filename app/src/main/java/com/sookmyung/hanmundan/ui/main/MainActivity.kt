@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var lastWriting: String? = null
     var currentWriting: String? = null
     private var moreMeaningState = false
-    private var bookmarkState = false
 
     private lateinit var databaseReal: DatabaseReference
     private val dateInPhone = getCurrentDate()
@@ -67,7 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var todayDocumentId: String
     private lateinit var todayWord: String
     private var todayWordSentence: String? = null
-    private var todayWordBookmarkState: Boolean = false
+    private var todayBookmarkState = false
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,14 +108,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         try {
             val databaseReference = databaseReal.child("hanmundan")
             val dataSnapshot = databaseReference.get().await()
+
             for (childSnapshot in dataSnapshot.children) {
                 dateInDatabase = childSnapshot.child("date").getValue(String::class.java).toString()
+
                 if (dateInDatabase == dateInPhone) {
                     todayDocumentId = childSnapshot.key!!
                     todayWord = childSnapshot.child("word").getValue(String::class.java)!!
                     todayWordSentence =
                         childSnapshot.child("sentence").getValue(String::class.java) ?: ""
-                    bookmarkState =
+                    todayBookmarkState =
                         childSnapshot.child("bookmark").getValue(Boolean::class.java) ?: false
                     break
                 }
@@ -149,7 +150,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun initUI() {
         binding.tvMainWordTitle.text = todayWord
         binding.etMainWriting.text = Editable.Factory.getInstance().newEditable(todayWordSentence)
-        bookmarkState = todayWordBookmarkState
+        //bookmarkState = todayWordBookmarkState
     }
 
     private fun retrofitWork() {
@@ -225,8 +226,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun clickBookmarkButton() {
         binding.ivMainBlankedBookmark.setOnClickListener {
-            bookmarkState = !bookmarkState
-            if (bookmarkState) {
+            todayBookmarkState = !todayBookmarkState
+            if (todayBookmarkState) {
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
                 SnackbarCustom.make(binding.root, "책갈피를 끼웠습니다.").show()
             } else {
@@ -238,7 +239,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     todayWord,
                     todayWordSentence ?: "",
                     dateInDatabase,
-                    bookmarkState
+                    todayBookmarkState
                 )
             )
         }
@@ -255,7 +256,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         todayWord,
                         binding.etMainWriting.text.toString(),
                         dateInDatabase,
-                        bookmarkState
+                        todayBookmarkState
                     )
                 )
             }
