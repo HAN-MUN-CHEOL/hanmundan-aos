@@ -58,28 +58,78 @@
             app:layout_constraintStart_toEndOf="@id/tv_main_word_title"
             app:layout_constraintTop_toTopOf="@+id/tv_main_word_title" />
 
-        <TextView
-            android:id="@+id/tv_main_word_meaning"
-            android:layout_width="300dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_main_word_meaning"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:fontFamily="@font/eulyoo1945_regular"
-            android:textSize="13sp"
+            android:layout_marginHorizontal="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_main_word_title"
-            tools:text="1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록.\n\n2. 어떠한 사물이나 사실이 존재해 온 연혁." />
+            app:layout_constraintTop_toBottomOf="@+id/tv_main_word_title">
+
+            <TextView
+                android:id="@+id/tv_main_word_meaning_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="1. 인류 사회의 변천과 흥망의 과정. 또는 그 기록." />
+
+            <TextView
+                android:id="@+id/tv_main_word_meaning_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_main_word_meaning_1"
+                tools:text="2. 어떠한 사물이나 사실이 존재해 온 연혁." />
+
+            <TextView
+                android:id="@+id/tv_main_word_meaning_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:textSize="13sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_main_word_meaning_2"
+                tools:text="3. 어떠한 사물이나 사실이 존재해 온 연혁." />
+
+            <TextView
+                android:id="@+id/tv_main_word_meaning_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/eulyoo1945_regular"
+                android:textSize="13sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_main_word_meaning_3"
+                tools:text="4. 어떠한 사물이나 사실이 존재해 온 연혁." />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/ll_main_more_meaning"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_main_word_meaning">
+            app:layout_constraintTop_toBottomOf="@+id/cl_main_word_meaning">
 
             <View
                 android:id="@+id/view_main_dividing_line"
@@ -109,9 +159,11 @@
 
         <EditText
             android:id="@+id/et_main_writing"
-            android:layout_width="300dp"
-            android:layout_height="350dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="50dp"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/shape_green_rectangle"
             android:fontFamily="@font/eulyoo1945_regular"
             android:gravity="start"
@@ -121,6 +173,7 @@
             android:textColor="@color/hmd_dark_green"
             android:textColorHint="@color/hmd_gray"
             android:textSize="11sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_main_save_writing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_main_more_meaning" />
@@ -129,16 +182,16 @@
             android:id="@+id/tv_main_save_writing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/eulyoo1945_semibold"
             android:paddingHorizontal="40dp"
             android:paddingVertical="10dp"
             android:text="@string/main_save_writing"
             android:textColor="@color/hmd_green"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_main_writing" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
