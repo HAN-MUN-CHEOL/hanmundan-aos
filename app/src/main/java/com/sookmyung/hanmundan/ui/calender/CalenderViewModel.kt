@@ -10,11 +10,6 @@ class CalenderViewModel : ViewModel() {
         MutableLiveData<DailyRecord>()
     val dailyRecord: LiveData<DailyRecord> = _dailyRecord
 
-    fun updateBookmark(){
-        val dr = _dailyRecord.value?.copy(bookmark = !(_dailyRecord.value!!.bookmark))
-        _dailyRecord.value = dr!!
-    }
-
     fun updateDailyRecord(dr: DailyRecord){
         _dailyRecord.value = dr
     }
