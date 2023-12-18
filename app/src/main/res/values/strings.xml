@@ -50,7 +50,7 @@
     <string name="dialog_delete_no">아니오</string>
 
     <!-- bookmark -->
-    <string name="bookmark_search">검색할 단어를 입력하세요</string>
+    <string name="bookmark_search">검색어를 입력하세요</string>
     <string name="bookmark_title">책갈피</string>
 
 </resources>

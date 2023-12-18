@@ -1,61 +1,34 @@
 package com.sookmyung.hanmundan.ui.bookmark
 
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.sookmyung.hanmundan.databinding.ItemBookmarkDailyRecordBinding
+import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.model.DailyRecord
-import com.sookmyung.hanmundan.util.ItemDiffCallback
 
-class RecyclerViewAdapter(
-    private val clickListener: ItemClickListener<DailyRecord>
-) : ListAdapter<DailyRecord, RecyclerViewAdapter.DailyRecordViewHolder>(DIFF_CALLBACK) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyRecordViewHolder {
-        val itemBookmarkDailyRecordBinding =
-            ItemBookmarkDailyRecordBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        return DailyRecordViewHolder(itemBookmarkDailyRecordBinding)
+class RecyclerViewAdapter(private val items: ArrayList<DailyRecord>) :
+    RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = items[position]
+        holder.word.text = item.word
+        holder.sentence.text = item.sentence.replace(" ", "\u00A0")
     }
 
-    override fun onBindViewHolder(holder: DailyRecordViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.onBind(item, clickListener)
+    override fun getItemCount(): Int {
+        return items.size
     }
 
-    fun updateItemChange(position: Int) {
-        val item = getItem(position)
-        item.bookmark = !item.bookmark
-        notifyItemChanged(position)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflatedView =
+            LayoutInflater.from(parent.context).inflate(R.layout.bookmark_list_item, parent, false)
+        return ViewHolder(inflatedView)
     }
 
-    class DailyRecordViewHolder(
-        val binding: ItemBookmarkDailyRecordBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun onBind(data: DailyRecord, itemClickListener: ItemClickListener<DailyRecord>) {
-            binding.data = data
-            Log.e("kang", "data is $data")
-            binding.root.setOnClickListener {
-                itemClickListener.onClick(absoluteAdapterPosition, data)
-            }
-        }
-    }
-
-    companion object {
-        private val DIFF_CALLBACK = ItemDiffCallback<DailyRecord>(
-            onItemsTheSame = { old, new -> old.date == new.date },
-            onContentsTheSame = { old, new -> old == new }
-        )
+    inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        private var view: View = v
+        val sentence = view.findViewById<TextView>(R.id.tv_bookmark_list_sentence)
+        val word = view.findViewById<TextView>(R.id.tv_bookmark_list_word)
     }
 }
-
-fun interface ItemClickListener<T> {
-    fun onClick(pos: Int, item: T)
-}
-
