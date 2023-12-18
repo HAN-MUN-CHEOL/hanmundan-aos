@@ -23,7 +23,9 @@ import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityMyPageBinding
 import com.sookmyung.hanmundan.ui.bookmark.BookmarkActivity
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
+import com.sookmyung.hanmundan.ui.join.JoinActivity
 import com.sookmyung.hanmundan.ui.main.MainActivity
+import com.sookmyung.hanmundan.ui.main.MainActivity.Companion.mainActivity
 import com.sookmyung.hanmundan.util.binding.BindingActivity
 import com.sookmyung.hanmundan.util.hideKeyboard
 import kotlinx.coroutines.CoroutineScope
@@ -76,7 +78,7 @@ class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_
             for (childSnapshot in dataSnapshot.children) {
                 sentenceInDB =
                     childSnapshot.child("sentence").getValue(String::class.java).toString()
-                if (sentenceInDB.isNullOrBlank()) continue
+                if (sentenceInDB.isBlank()) continue
                 else featherCount++
             }
             binding.tvMyPageFeatherCount.text = "${featherCount}개"
@@ -173,7 +175,18 @@ class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_
         resignDialog.findViewById<MaterialTextView>(R.id.btn_dialog_no)
             .setOnClickListener { resignDialog.dismiss() }
         resignDialog.findViewById<MaterialTextView>(R.id.btn_dialog_yes)
-            .setOnClickListener { finish() }
+            .setOnClickListener {
+                val spf: SharedPreferences =
+                    applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+                val editor: SharedPreferences.Editor = spf.edit()
+                editor.remove("nickname")
+                editor.remove("password")
+                editor.apply()
+                val intentToJoin = Intent(this,JoinActivity::class.java)
+                startActivity(intentToJoin)
+                mainActivity?.finish()
+                finish()
+            }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

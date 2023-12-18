@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        mainActivity = this
 
         FirebaseApp.initializeApp(this)
         val headerNavigation = binding.nvMainMenu.getHeaderView(0)
@@ -374,5 +375,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.etMainWriting.text =
                     Editable.Factory.getInstance().newEditable(lastWriting)
             }
+    }
+
+    companion object{
+        var mainActivity : MainActivity? = null
     }
 }
