@@ -101,7 +101,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="11dp"
                     android:fontFamily="@font/eulyoo1945_semibold"
-                    android:text="%d개"
+                    android:text="0개"
                     android:textColor="@color/hmd_beige"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
