@@ -49,9 +49,9 @@ class CalenderActivity : BindingActivity<ActivityCalenderBinding>(R.layout.activ
     private lateinit var todayDocumentId: String
     private lateinit var todayWord: String
     private var todayWordSentence: String? = null
-    private var todayWordBookmarkState: Boolean = false
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private var bookmarkState = false
+    private lateinit var userId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.vm = viewModel
@@ -63,6 +63,7 @@ class CalenderActivity : BindingActivity<ActivityCalenderBinding>(R.layout.activ
         val spf: SharedPreferences =
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
         val nickname = spf.getString("nickname", "")
+        userId = spf.getString("userId", "").toString()
 
         date = binding.cvCalender.date
         navigationView.setNavigationItemSelectedListener(this)
@@ -81,11 +82,36 @@ class CalenderActivity : BindingActivity<ActivityCalenderBinding>(R.layout.activ
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun onResume() {
+        super.onResume()
+        coroutineScope.launch {
+            initWord()
+            initUI()
+            setBookmark()
+        }
+        val spf: SharedPreferences =
+            applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+        val nickname = spf.getString("nickname", "")
+        val headerNavigation = binding.nvMenu.getHeaderView(0)
+        val textMenuNickname =
+            headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
+
+        initMenuNickname(textMenuNickname, nickname)
+    }
+
+    private fun setBookmark() {
+        if (bookmarkState) {
+            binding.ivCalenderBookmark.setImageResource(R.drawable.ic_bookmark_fill)
+        } else {
+            binding.ivCalenderBookmark.setImageResource(R.drawable.ic_bookmark_blank)
+        }
+    }
+
     private fun initUI() {
         binding.tvCalenderWordTitle.text = todayWord
         binding.tvCalenderSentence.text =
             Editable.Factory.getInstance().newEditable(todayWordSentence)
-        bookmarkState = todayWordBookmarkState
     }
 
     private fun initClick() {
@@ -114,7 +140,7 @@ class CalenderActivity : BindingActivity<ActivityCalenderBinding>(R.layout.activ
     }
 
     private fun setDocument(data: DailyRecord) {
-        databaseReal.child("hanmundan").child(todayDocumentId).setValue(data)
+        databaseReal.child(userId).child(todayDocumentId).setValue(data)
             .addOnSuccessListener {
                 Log.e("hmm", "setDocument success")
             }
@@ -125,7 +151,7 @@ class CalenderActivity : BindingActivity<ActivityCalenderBinding>(R.layout.activ
 
     private suspend fun initWord() {
         try {
-            val databaseReference = databaseReal.child("hanmundan")
+            val databaseReference = databaseReal.child(userId)
             val dataSnapshot = databaseReference.get().await()
             for (childSnapshot in dataSnapshot.children) {
                 dateInDatabase = childSnapshot.child("date").getValue(String::class.java).toString()
@@ -182,24 +208,10 @@ class CalenderActivity : BindingActivity<ActivityCalenderBinding>(R.layout.activ
             intentToRetirement.putExtra("word", todayWord)
             intentToRetirement.putExtra("sentence", todayWordSentence)
             intentToRetirement.putExtra("date", realDate)
-            intentToRetirement.putExtra("bookmark", todayWordBookmarkState)
+            intentToRetirement.putExtra("bookmark", bookmarkState)
             startActivity(intentToRetirement)
         }
-        binding.ivCalenderBookmark.setOnClickListener { viewModel.updateBookmark() }
         initCalenderDateClickListener()
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onResume() {
-        super.onResume()
-        val spf: SharedPreferences =
-            applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
-        val nickname = spf.getString("nickname", "")
-        val headerNavigation = binding.nvMenu.getHeaderView(0)
-        val textMenuNickname =
-            headerNavigation.findViewById<TextView>(R.id.tv_navigation_header_name)
-
-        initMenuNickname(textMenuNickname, nickname)
     }
 
     private fun initCalenderDateClickListener() {

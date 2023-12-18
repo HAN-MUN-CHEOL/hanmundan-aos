@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var todayWordSentence: String? = null
     private var todayBookmarkState = false
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +84,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val spf: SharedPreferences =
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
         val nickname = spf.getString("nickname", "")
+        userId = spf.getString("userId", "").toString()
 
         databaseReal =
             Firebase.database("https://hanmundan-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
@@ -105,9 +107,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
+    override fun onResume() {
+        super.onResume()
+        coroutineScope.launch {
+            initWord()
+            initUI()
+            setBookmark()
+        }
+    }
+
     private suspend fun initWord() {
         try {
-            val databaseReference = databaseReal.child("hanmundan")
+            val databaseReference = databaseReal.child(userId)
             val dataSnapshot = databaseReference.get().await()
 
             for (childSnapshot in dataSnapshot.children) {
@@ -227,14 +238,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun clickBookmarkButton() {
         binding.ivMainBlankedBookmark.setOnClickListener {
-            todayBookmarkState = !todayBookmarkState
-            if (todayBookmarkState) {
-                binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
-                SnackbarCustom.make(binding.root, "책갈피를 끼웠습니다.").show()
-            } else {
-                binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
-                SnackbarCustom.make(binding.root, "책갈피를 뺐습니다.").show()
-            }
+            todayBookmarkState = todayBookmarkState != true
+            updateBookmark()
             setDocument(
                 DailyRecord(
                     todayWord,
@@ -243,6 +248,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     todayBookmarkState
                 )
             )
+        }
+    }
+
+    private fun updateBookmark() {
+        if (todayBookmarkState) {
+            binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
+            SnackbarCustom.make(binding.root, "책갈피를 끼웠습니다.").show()
+        } else {
+            binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
+            SnackbarCustom.make(binding.root, "책갈피를 뺐습니다.").show()
+        }
+    }
+
+    private fun setBookmark() {
+        if (todayBookmarkState) {
+            binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_fill)
+        } else {
+            binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
         }
     }
 
@@ -294,7 +317,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setDocument(data: DailyRecord) {
-        databaseReal.child("hanmundan").child(todayDocumentId).setValue(data)
+        databaseReal.child(userId).child(todayDocumentId).setValue(data)
             .addOnSuccessListener {
                 Log.e("hmm", "setDocument success")
             }

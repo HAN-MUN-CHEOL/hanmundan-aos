@@ -18,7 +18,7 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
 
         val spf: SharedPreferences =
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
-        val nickname = spf.getString("nickname", "")
+        val nickname = spf.getString("userId", "")
 
         if (nickname.isNullOrEmpty()) {
             Handler(Looper.getMainLooper()).postDelayed({
@@ -29,10 +29,8 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
 
         } else {
             Handler(Looper.getMainLooper()).postDelayed({
-                val intentToJoin = Intent(this, JoinActivity::class.java)
                 val intentToLock = Intent(this, LockActivity::class.java)
                 startActivity(intentToLock)
-                finish()
                 finish()
             }, 2000)
 

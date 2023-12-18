@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.sookmyung.hanmundan.ui.calender.CalenderViewModel" />
@@ -18,7 +19,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/hmd_beige">
 
             <TextView
                 android:id="@+id/tv_calender_navi_title"
@@ -71,8 +73,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:fontFamily="@font/eulyoo1945_semibold"
-                    android:textSize="26sp"
                     android:text="@{vm.dailyRecord.word}"
+                    android:textSize="26sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -97,13 +99,30 @@
                     android:layout_marginTop="15dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/eulyoo1945_regular"
+                    android:text="@{vm.dailyRecord.sentence}"
                     android:textColor="@color/hmd_dark_green"
                     android:textSize="12sp"
-                    android:text="@{vm.dailyRecord.sentence}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view_calender_word_card"
                     tools:text="역사의 미묘한 스케일 속에서, 우리는 작은 삶의 주인공이자 큰 운명의 연극 배우로서 행복과,,," />
+
+                <TextView
+                    android:id="@+id/tv_calender_sentence_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:layout_marginTop="15dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/eulyoo1945_regular"
+                    android:hint="작성하지 않았어요. 한 글자라도 좋으니 써볼까요?"
+                    android:textColor="@color/hmd_dark_green"
+                    android:textSize="12sp"
+                    android:visibility="@{vm.dailyRecord.sentence.length() == 0 ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_calender_word_card"
+                    tools:text="작성하지 않았어요. 한 글자라도 좋으니 써볼까요?" />
 
                 <ImageView
                     android:id="@+id/iv_calender_bookmark"

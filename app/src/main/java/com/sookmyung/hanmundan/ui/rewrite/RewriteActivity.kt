@@ -2,6 +2,8 @@ package com.sookmyung.hanmundan.ui.rewrite
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -46,11 +48,15 @@ class RewriteActivity : BindingActivity<ActivityRewriteBinding>(R.layout.activit
     private var currentWordSentence: String? = null
     private var currentWordBookmarkState = false
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         databaseReal =
             Firebase.database("https://hanmundan-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
+        val spf: SharedPreferences =
+            applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+        userId = spf.getString("userId", "").toString()
 
         getIntentFromCalender()
         coroutineScope.launch {
@@ -76,7 +82,7 @@ class RewriteActivity : BindingActivity<ActivityRewriteBinding>(R.layout.activit
 
     private suspend fun initWord() {
         try {
-            val databaseReference = databaseReal.child("hanmundan")
+            val databaseReference = databaseReal.child(userId)
             val dataSnapshot = databaseReference.get().await()
             for (childSnapshot in dataSnapshot.children) {
                 val dateInDatabase =
@@ -184,7 +190,7 @@ class RewriteActivity : BindingActivity<ActivityRewriteBinding>(R.layout.activit
     }
 
     private fun setDocument(data: DailyRecord) {
-        databaseReal.child("hanmundan").child(currentDocumentId).setValue(data)
+        databaseReal.child(userId).child(currentDocumentId).setValue(data)
             .addOnSuccessListener {
                 Log.e("hmm", "setDocument success")
             }

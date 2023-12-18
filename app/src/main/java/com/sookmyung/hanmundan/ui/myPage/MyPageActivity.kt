@@ -40,7 +40,7 @@ class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_
     private lateinit var resignDialog: Dialog
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private lateinit var databaseReal: DatabaseReference
-    private lateinit var sentenceInDB: String
+    private lateinit var userId: String
     private var featherCount = 0;
 
     @SuppressLint("SetTextI18n")
@@ -55,6 +55,7 @@ class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_
         val spf: SharedPreferences =
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
         val nickname = spf.getString("nickname", "")
+        userId = spf.getString("userId", "").toString()
         binding.tvMyPageNickname.text = "${nickname}님"
         initDialog()
         navigationView.setNavigationItemSelectedListener(this)
@@ -73,14 +74,13 @@ class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_
     @SuppressLint("SetTextI18n")
     private suspend fun countFeather() {
         try {
-            val databaseReference = databaseReal.child("hanmundan")
+            val databaseReference = databaseReal.child(userId)
             val dataSnapshot = databaseReference.get().await()
-            for (childSnapshot in dataSnapshot.children) {
-                sentenceInDB =
-                    childSnapshot.child("sentence").getValue(String::class.java).toString()
-                if (sentenceInDB.isBlank()) continue
-                else featherCount++
-            }
+
+            featherCount = dataSnapshot.children
+                .mapNotNull { it.child("sentence").getValue(String::class.java) }
+                .count { it.isNotBlank() }
+
             binding.tvMyPageFeatherCount.text = "${featherCount}개"
         } catch (exception: Exception) {
             Log.d("hmm", "Error getting data: ", exception)
@@ -181,6 +181,7 @@ class MyPageActivity : BindingActivity<ActivityMyPageBinding>(R.layout.activity_
                 val editor: SharedPreferences.Editor = spf.edit()
                 editor.remove("nickname")
                 editor.remove("password")
+                editor.remove("userId")
                 editor.apply()
                 val intentToJoin = Intent(this,JoinActivity::class.java)
                 startActivity(intentToJoin)

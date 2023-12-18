@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
+import com.google.firebase.Firebase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.database
 import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.databinding.ActivityChangeNicknameBinding
 import com.sookmyung.hanmundan.util.SnackbarCustom
@@ -13,11 +16,14 @@ import java.util.regex.Pattern
 
 class ChangeNickNameActivity :
     BindingActivity<ActivityChangeNicknameBinding>(R.layout.activity_change_nickname) {
-
+    private lateinit var databaseReal: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val spf: SharedPreferences =
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
+
+        databaseReal =
+            Firebase.database("https://hanmundan-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
 
         val filterAlphaNumSpace = arrayOf(InputFilter { source, start, end, dest, dstart, dend ->
             val ps = Pattern.compile("^[ㄱ-ㅣ가-힣a-zA-Z0-9]+$")
