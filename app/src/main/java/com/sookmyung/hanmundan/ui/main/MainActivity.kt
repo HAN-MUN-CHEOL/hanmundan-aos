@@ -19,21 +19,35 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textview.MaterialTextView
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.database
 import com.sookmyung.hanmundan.R
 import com.sookmyung.hanmundan.data.RetrofitInstance
 import com.sookmyung.hanmundan.data.RetrofitInstance.CLIENT_SECRET
 import com.sookmyung.hanmundan.databinding.ActivityMainBinding
+import com.sookmyung.hanmundan.model.DailyRecord
 import com.sookmyung.hanmundan.model.DictionaryResponseDTO
 import com.sookmyung.hanmundan.model.Item
 import com.sookmyung.hanmundan.ui.bookmark.BookmarkActivity
 import com.sookmyung.hanmundan.ui.calender.CalenderActivity
 import com.sookmyung.hanmundan.ui.myPage.MyPageActivity
 import com.sookmyung.hanmundan.util.SnackbarCustom
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -47,9 +61,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var moreMeaningState = false
     private var bookmarkState = false
 
+    private lateinit var databaseReal: DatabaseReference
+    private val dateInPhone = getCurrentDate()
+    private lateinit var dateInDatabase: String
+    private lateinit var todayDocumentId: String
+    private lateinit var todayWord: String
+    private var todayWordSentence: String? = null
+    private var todayWordBookmarkState: Boolean = false
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        FirebaseApp.initializeApp(this)
         val headerNavigation = binding.nvMainMenu.getHeaderView(0)
         val btnMenuClose = headerNavigation.findViewById<ImageView>(R.id.iv_navigation_navi)
         val textMenuNickname =
@@ -59,11 +84,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             applicationContext.getSharedPreferences("user", Context.MODE_PRIVATE)
         val nickname = spf.getString("nickname", "")
 
-        initClick()
+        databaseReal =
+            Firebase.database("https://hanmundan-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
+
+        coroutineScope.launch {
+            initWord()
+            initUI()
+            retrofitWork()
+            initClick()
+        }
+
         navigationView.setNavigationItemSelectedListener(this)
         initMenuNickname(textMenuNickname, nickname)
         initDrawer(btnMenuClose)
-        retrofitWork()
 
         dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -72,10 +105,57 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
+    private suspend fun initWord() {
+        try {
+            val databaseReference = databaseReal.child("hanmundan")
+            val dataSnapshot = databaseReference.get().await()
+            for (childSnapshot in dataSnapshot.children) {
+                dateInDatabase = childSnapshot.child("date").getValue(String::class.java).toString()
+                if (dateInDatabase == dateInPhone) {
+                    todayDocumentId = childSnapshot.key!!
+                    todayWord = childSnapshot.child("word").getValue(String::class.java)!!
+                    todayWordSentence =
+                        childSnapshot.child("sentence").getValue(String::class.java) ?: ""
+                    bookmarkState =
+                        childSnapshot.child("bookmark").getValue(Boolean::class.java) ?: false
+                    break
+                }
+            }
+        } catch (exception: Exception) {
+            Log.d("hmm", "Error getting data: ", exception)
+        }
+    }
+
+    // Firebase의 Task를 Deferred로 변환하는 확장 함수
+    private suspend fun <T> Task<T>.await(): T {
+        return suspendCancellableCoroutine { continuation ->
+            addOnSuccessListener { result ->
+                continuation.resume(result)
+            }
+            addOnFailureListener { exception ->
+                continuation.resumeWithException(exception)
+            }
+        }
+    }
+
+    private fun getCurrentDate(): String {
+        val currentDate = System.currentTimeMillis()
+        val date = Date(currentDate)
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd").format(date)
+        val todayDate = dateFormat.format(date)
+        return todayDate
+    }
+
+    private fun initUI() {
+        binding.tvMainWordTitle.text = todayWord
+        binding.etMainWriting.text = Editable.Factory.getInstance().newEditable(todayWordSentence)
+        bookmarkState = todayWordBookmarkState
+    }
+
     private fun retrofitWork() {
         val service = RetrofitInstance.retrofitService
 
-        service.getDictionary(CLIENT_SECRET, "역사", "json")
+        service.getDictionary(CLIENT_SECRET, todayWord, "json") // 여기에 받아온 단어
             .enqueue(object : Callback<DictionaryResponseDTO> {
                 override fun onResponse(
                     call: Call<DictionaryResponseDTO>,
@@ -102,6 +182,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun bindMeaningToTextView(textView: TextView, items: List<Item>, index: Int) {
         if (index < items.size) {
             val meaning = items[index].sense[0].definition
@@ -152,6 +233,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.ivMainBlankedBookmark.setImageResource(R.drawable.ic_bookmark_blank)
                 SnackbarCustom.make(binding.root, "책갈피를 뺐습니다.").show()
             }
+            setDocument(
+                DailyRecord(
+                    todayWord,
+                    todayWordSentence ?: "",
+                    dateInDatabase,
+                    bookmarkState
+                )
+            )
         }
     }
 
@@ -161,6 +250,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             updateSaveWritingState()
             if (saveWritingState) {
                 SnackbarCustom.make(binding.root, "저장되었습니다.").show()
+                setDocument(
+                    DailyRecord(
+                        todayWord,
+                        binding.etMainWriting.text.toString(),
+                        dateInDatabase,
+                        bookmarkState
+                    )
+                )
             }
         }
     }
@@ -192,6 +289,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 saveWritingState = lastWriting == currentWriting
             }
         })
+    }
+
+    private fun setDocument(data: DailyRecord) {
+        databaseReal.child("hanmundan").child(todayDocumentId).setValue(data)
+            .addOnSuccessListener {
+                Log.e("hmm", "setDocument success")
+            }
+            .addOnFailureListener {
+                Log.e("hmm", "setDocument fail")
+            }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
