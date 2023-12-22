@@ -43,7 +43,7 @@
     <string name="lock_title">자물쇠 열기</string>
 
     <!-- dialog -->
-    <string name="dialog_change_view">작성한 글이 저장되지 않았습니다.\n이 화면을 나가시겠습니까?</string>
+    <string name="dialog_change_view">작성한 글이\n저장되지 않았습니다.\n이 화면을 나가시겠습니까?</string>
     <string name="dialog_delete_bookmark_sentence">삭제 시 책갈피가 빠지고\n작성한 글을 다시 볼 수 없습니다.\n정말 삭제하시겠습니까?</string>
     <string name="dialog_delete_sentence">삭제 시 작성한 글을 다시 볼 수 없습니다.\n정말 삭제하시겠습니까?</string>
     <string name="dialog_delete_yes">예</string>
